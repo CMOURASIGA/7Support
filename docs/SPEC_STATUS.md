@@ -11,7 +11,7 @@ FOUNDATION SPEC - READY FOR DEVELOPMENT
 | Área | Status | Direção |
 |---|---|---|
 | Nome | APPROVED | 7Support |
-| IA | APPROVED | Hermes |
+| IA | APPROVED | Atena |
 | Papel do 7Support | APPROVED | Domínio de atendimento e suporte |
 | 7Service | APPROVED | Continua control plane administrativo |
 | 7HUB | APPROVED | Futuro portal do cliente |
@@ -25,7 +25,7 @@ FOUNDATION SPEC - READY FOR DEVELOPMENT
 | E-mail | APPROVED | notificação desacoplada |
 | Conta operacional | APPROVED | contactconsultservices@gmail.com |
 | Gmail API | APPROVED | provider inicial via Google Cloud |
-| Hermes | APPROVED | suporte baseado em conhecimento |
+| Atena | APPROVED | suporte baseado em conhecimento com OpenAI server-side |
 | Escalonamento IA -> ticket | APPROVED | com contexto |
 | Anexos | APPROVED | privados |
 | Auditoria | APPROVED | obrigatória |
@@ -44,7 +44,7 @@ FOUNDATION SPEC - READY FOR DEVELOPMENT
 - domínio público definitivo;
 - remetente institucional definitivo;
 - política final de retenção LGPD;
-- modelo OpenAI definitivo;
+- modelo OpenAI definitivo, mantendo OpenAI como provider inicial aprovado;
 - estratégia final de embedding/vector store;
 - calendário comercial de SLA.
 
@@ -58,8 +58,8 @@ Estas pendências devem permanecer configuráveis ou explicitamente não impleme
 4. SPEC 04 Support Operations
 5. SPEC 05 Notifications
 6. SPEC 06 Knowledge Base
-7. SPEC 07 Hermes Foundation
-8. SPEC 08 Hermes Escalation
+7. SPEC 07 Atena Foundation
+8. SPEC 08 Atena Escalation
 9. SPEC 09 SLA
 10. SPEC 10 Satisfaction/Reporting
 11. SPEC 11 7Service Integration
@@ -86,7 +86,7 @@ A primeira versão utilizável deve permitir:
 - auditoria;
 - isolamento multi-tenant.
 
-Hermes pode entrar após o ticket core estar validado.
+Atena pode entrar após o ticket core estar validado.
 
 ## Gate
 
