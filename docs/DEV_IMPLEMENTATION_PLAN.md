@@ -37,6 +37,10 @@ Criar a base técnica seguindo o padrão 7Commander.
 - tratamento global de erros;
 - health endpoint;
 - layouts base;
+- componentes base de label/badge;
+- sistema de toast/notificação;
+- componente de drawer responsivo;
+- padrão de botões com ícones e tooltips;
 - environments dev/preview/prod.
 
 ### Estrutura sugerida
@@ -120,6 +124,10 @@ Implementar abertura e consulta de chamados.
 ### Regras
 
 - identidade preenchida automaticamente;
+- e-mail de notificação exibido a partir do 7Service e não editável no chamado;
+- feedback de abertura por toast/notificação;
+- labels para status e impacto;
+- drawer para resumo rápido onde aplicável;
 - produtos derivados do acesso;
 - cliente não define prioridade interna;
 - ticket persistido antes de notificação.
@@ -141,6 +149,8 @@ Criar operação interna.
 - dashboard suporte;
 - fila;
 - todos os chamados;
+- drawers de resumo/contexto;
+- ações rápidas por ícones com tooltips;
 - filtros;
 - assumir;
 - transferir;
