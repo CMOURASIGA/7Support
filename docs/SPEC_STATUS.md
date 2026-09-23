@@ -25,7 +25,8 @@ FOUNDATION SPEC - READY FOR DEVELOPMENT
 | E-mail | APPROVED | notificação desacoplada |
 | Conta operacional | APPROVED | contactconsultservices@gmail.com |
 | Gmail API | APPROVED | provider inicial via Google Cloud |
-| Atena | APPROVED | suporte baseado em conhecimento com OpenAI server-side |
+| Atena | APPROVED | suporte baseado em conhecimento com AI Router multi-provider |
+| AI Router | APPROVED | OpenRouter Free homologado como primário + OpenAI fallback |
 | Escalonamento IA -> ticket | APPROVED | com contexto |
 | Anexos | APPROVED | privados |
 | Auditoria | APPROVED | obrigatória |
@@ -44,7 +45,8 @@ FOUNDATION SPEC - READY FOR DEVELOPMENT
 - domínio público definitivo;
 - remetente institucional definitivo;
 - política final de retenção LGPD;
-- modelo OpenAI definitivo, mantendo OpenAI como provider inicial aprovado;
+- modelos OpenRouter gratuitos homologados podem mudar conforme disponibilidade;
+- modelo OpenAI de fallback definitivo;
 - estratégia final de embedding/vector store;
 - calendário comercial de SLA.
 
@@ -58,7 +60,7 @@ Estas pendências devem permanecer configuráveis ou explicitamente não impleme
 4. SPEC 04 Support Operations
 5. SPEC 05 Notifications
 6. SPEC 06 Knowledge Base
-7. SPEC 07 Atena Foundation
+7. SPEC 07 Atena + AI Router Foundation
 8. SPEC 08 Atena Escalation
 9. SPEC 09 SLA
 10. SPEC 10 Satisfaction/Reporting
