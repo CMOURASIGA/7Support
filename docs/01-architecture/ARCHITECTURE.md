@@ -24,7 +24,7 @@ Cliente            Consult Services
    +--------+---------+---------+
    |                  |         |
 Supabase           Gmail      OpenAI
-Tickets/RLS        Notify     Hermes
+Tickets/RLS        Notify     Atena
 ```
 
 ## Fonte de verdade
@@ -51,7 +51,7 @@ Fonte para:
 - prioridades e categorias;
 - SLA;
 - base de conhecimento;
-- conversas Hermes;
+- conversas Atena;
 - notificações;
 - avaliações;
 - auditoria específica do suporte.
@@ -90,7 +90,7 @@ Preferencialmente consumida pelo 7HUB:
 - meus chamados;
 - novo chamado;
 - detalhe do chamado;
-- Hermes;
+- Atena;
 - ajuda.
 
 Enquanto o 7HUB não existir, o 7Support pode oferecer uma superfície cliente própria, desde que a arquitetura permita migração posterior sem reescrever o domínio.
@@ -103,7 +103,7 @@ Pode existir no próprio 7Support ou ser embutida no 7Service:
 - todos os chamados;
 - detalhe do chamado;
 - base de conhecimento;
-- Hermes;
+- Atena;
 - SLA;
 - configurações;
 - auditoria.
@@ -138,7 +138,7 @@ Exemplos:
 - notification.requested;
 - notification.sent;
 - notification.failed;
-- hermes.escalated_to_ticket.
+- atena.escalated_to_ticket.
 
 ## Regra de consistência
 
