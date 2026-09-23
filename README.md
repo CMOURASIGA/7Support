@@ -8,7 +8,6 @@ O 7Support é o domínio responsável por abertura, acompanhamento e gestão de 
 
 - **7Service**: control plane interno de clientes, usuários, produtos, contratos, licenças, acessos e entitlements.
 - **7Support**: domínio de atendimento e suporte.
-- **7HUB**: futuro portal do cliente e principal superfície de acesso ao suporte.
 - **Atena**: assistente de suporte baseado em conhecimento autorizado.
 
 O 7Support não substitui nem duplica o 7Service.
@@ -40,10 +39,14 @@ Comece por:
 6. `docs/02-ux/UX_AND_NAVIGATION.md`
 7. `docs/03-integrations/INTEGRATIONS.md`
 8. `docs/04-ai/ATENA_OPENAI.md`
-9. `docs/DEV_IMPLEMENTATION_PLAN.md`
-10. `docs/FIRST_RELEASE_ACCEPTANCE.md`
-11. `docs/SPEC_STATUS.md`
+9. `docs/04-ai/KNOWLEDGE_GOVERNANCE.md`
+10. `docs/03-integrations/7SERVICE_CONTRACT.md`
+11. `docs/DEV_MODEL_ROUTING.md`
+12. `docs/DEV_IMPLEMENTATION_PLAN.md`
+13. `docs/HUMAN_VALIDATION_MATRIX.md`
+14. `docs/FIRST_RELEASE_ACCEPTANCE.md`
+15. `docs/SPEC_STATUS.md`
 
 ## Regra principal
 
-O desenvolvedor não deve inventar regras permanentes para itens marcados como pendentes em `SPEC_STATUS.md`. O desenvolvimento deve seguir a ordem das SPECs e preservar segurança, isolamento multi-tenant, auditoria e compatibilidade com 7Service/7HUB.
+O desenvolvedor não deve inventar regras permanentes para itens marcados como pendentes em `SPEC_STATUS.md`. O desenvolvimento deve seguir a ordem das SPECs e preservar segurança, isolamento multi-tenant, auditoria e compatibilidade com a identidade central e o 7Service.
