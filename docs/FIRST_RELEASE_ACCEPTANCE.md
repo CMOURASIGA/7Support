@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Definir o gate mínimo para considerar o núcleo de atendimento utilizável antes da evolução para Hermes, SLA avançado e 7HUB.
+Definir o gate mínimo para considerar o núcleo de atendimento utilizável antes da evolução para Atena, SLA avançado e 7HUB.
 
 ## Cenário base
 
@@ -107,4 +107,4 @@ Falha de e-mail não é FAIL de integridade do ticket, desde que seja registrada
 
 ## Próximo gate
 
-Após aprovação deste núcleo, iniciar Knowledge Base e Hermes conforme `DEV_IMPLEMENTATION_PLAN.md`.
+Após aprovação deste núcleo, iniciar Knowledge Base e Atena conforme `DEV_IMPLEMENTATION_PLAN.md`.
