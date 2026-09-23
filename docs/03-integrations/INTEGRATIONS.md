@@ -103,42 +103,111 @@ A conta `contactconsultservices@gmail.com` deve receber cópia/notificação ope
 
 O remetente definitivo deve ser configurável para permitir migração futura para conta institucional.
 
-## 4. OpenAI - Atena
+## 4. AI Router - Atena
 
 ### Objetivo
 
-Responder dúvidas operacionais com base em documentação autorizada.
+Permitir que Atena utilize múltiplos providers sem acoplamento do domínio.
 
-### Regras
+### Providers aprovados inicialmente
 
-- uso somente server-side;
-- chave OpenAI armazenada exclusivamente em secret de ambiente;
-- OpenAI é o provider inicial aprovado para a Atena;
-- integração obrigatoriamente server-side;
-- provider encapsulado por adapter para permitir evolução futura sem acoplar o domínio;
+#### OpenRouter
+
+Papel inicial:
+- provider primário para modelos gratuitos homologados;
+- desenvolvimento;
+- homologação;
+- perguntas operacionais simples;
+- respostas fundamentadas pelo RAG quando a qualidade homologada for suficiente.
+
+Regras:
+- somente server-side;
+- chave em secret de ambiente;
 - modelo configurável;
-- timeout;
-- retry limitado somente para falhas transitórias;
-- custo/tokens/duração observáveis;
-- nenhuma resposta sem base suficiente deve ser apresentada como fato;
-- citar fontes internas quando tecnicamente disponível;
-- não executar ação destrutiva ou alteração em produto na fase inicial.
+- manter allowlist de modelos homologados;
+- não depender de um modelo gratuito permanecer gratuito indefinidamente;
+- não assumir disponibilidade ilimitada;
+- tratar rate limit, indisponibilidade e remoção do modelo;
+- não usar seleção aleatória de modelo como garantia de qualidade em produção.
 
-### RAG
+#### OpenAI
+
+Papel:
+- fallback aprovado;
+- provider direto para fluxos que exijam maior previsibilidade/qualidade;
+- contingência quando OpenRouter não estiver disponível ou não atender aos critérios.
+
+Regras:
+- somente server-side;
+- chave em secret de ambiente;
+- modelo configurável;
+- timeout/retry;
+- observabilidade de tokens e custo.
+
+## 5. Política de roteamento
+
+O AI Router deve suportar:
+
+- provider principal;
+- modelo principal;
+- provider fallback;
+- modelo fallback;
+- modo AUTO;
+- timeout;
+- retry;
+- critérios de fallback.
+
+Exemplos de critérios de fallback:
+- HTTP/provider error;
+- rate limit;
+- timeout;
+- modelo indisponível;
+- resposta vazia;
+- schema inválido;
+- validação de qualidade/grounding reprovada quando aplicável.
+
+Fallback não deve mascarar falhas. Deve ser registrado.
+
+## 6. Telemetria de IA
+
+Persistir ou observar:
+- provider;
+- model;
+- fallback_used;
+- fallback_reason;
+- duration;
+- input_tokens;
+- output_tokens;
+- estimated_cost;
+- status;
+- error_code.
+
+Isso deve permitir avaliar posteriormente:
+- percentual atendido gratuitamente;
+- percentual de fallback;
+- qualidade por modelo;
+- custo por provider;
+- latência;
+- falhas por modelo.
+
+## 7. RAG
 
 Fluxo recomendado:
 1. identificar produto/contexto;
 2. buscar fontes autorizadas;
 3. filtrar por visibilidade;
 4. montar contexto mínimo;
-5. gerar resposta;
-6. validar estrutura;
-7. persistir run e mensagens;
-8. oferecer escalonamento.
+5. AI Router selecionar provider/modelo;
+6. gerar resposta;
+7. validar estrutura e grounding;
+8. persistir run e mensagens;
+9. oferecer escalonamento.
 
-### Escalonamento
+Nenhuma resposta sem base suficiente deve ser apresentada como fato.
 
-Ao criar ticket a partir do Atena:
+## 8. Escalonamento
+
+Ao criar ticket a partir da Atena:
 - gerar resumo;
 - incluir produto;
 - incluir pergunta original;
@@ -147,7 +216,7 @@ Ao criar ticket a partir do Atena:
 - não copiar chain-of-thought;
 - usuário revisa assunto/descrição antes do envio quando possível.
 
-## 5. Produtos do ecossistema
+## 9. Produtos do ecossistema
 
 Integrações futuras podem fornecer:
 - versão atual;
@@ -160,7 +229,7 @@ Nenhum produto deve precisar conhecer detalhes internos do banco do 7Support.
 
 Usar contratos de API/eventos.
 
-## 6. Webhooks
+## 10. Webhooks
 
 Quando existirem:
 - assinatura obrigatória;
@@ -170,7 +239,7 @@ Quando existirem:
 - rate limit;
 - DLQ ou registro de falha.
 
-## 7. Observabilidade externa
+## 11. Observabilidade externa
 
 Toda chamada externa deve registrar:
 - provider;
