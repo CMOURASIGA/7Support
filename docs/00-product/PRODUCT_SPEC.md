@@ -26,8 +26,8 @@ Pode:
 - acompanhar status;
 - consultar histórico;
 - avaliar atendimento;
-- utilizar o Atena;
-- converter conversa do Atena em chamado.
+- utilizar a Atena;
+- converter conversa da Atena em chamado.
 
 Não pode:
 - visualizar notas internas;
@@ -78,7 +78,7 @@ Além das permissões de suporte, pode:
 9. Cópia/notificação operacional é enviada para `contactconsultservices@gmail.com`.
 10. Chamado entra na fila de suporte.
 11. Suporte assume, responde e altera o ciclo de status.
-12. Cliente responde no próprio 7Support/7HUB.
+12. Cliente responde no próprio 7Support.
 13. Chamado é resolvido.
 14. Cliente pode confirmar resolução, reabrir quando permitido e avaliar atendimento.
 
