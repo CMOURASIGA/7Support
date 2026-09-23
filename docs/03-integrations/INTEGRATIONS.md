@@ -50,7 +50,7 @@ Portal do cliente.
 - meus chamados;
 - novo chamado;
 - detalhe;
-- Hermes;
+- Atena;
 - ajuda.
 
 O domínio e regras permanecem no 7Support.
@@ -103,7 +103,7 @@ A conta `contactconsultservices@gmail.com` deve receber cópia/notificação ope
 
 O remetente definitivo deve ser configurável para permitir migração futura para conta institucional.
 
-## 4. OpenAI - Hermes
+## 4. OpenAI - Atena
 
 ### Objetivo
 
@@ -112,7 +112,10 @@ Responder dúvidas operacionais com base em documentação autorizada.
 ### Regras
 
 - uso somente server-side;
-- provider encapsulado por adapter;
+- chave OpenAI armazenada exclusivamente em secret de ambiente;
+- OpenAI é o provider inicial aprovado para a Atena;
+- integração obrigatoriamente server-side;
+- provider encapsulado por adapter para permitir evolução futura sem acoplar o domínio;
 - modelo configurável;
 - timeout;
 - retry limitado somente para falhas transitórias;
@@ -135,7 +138,7 @@ Fluxo recomendado:
 
 ### Escalonamento
 
-Ao criar ticket a partir do Hermes:
+Ao criar ticket a partir do Atena:
 - gerar resumo;
 - incluir produto;
 - incluir pergunta original;
