@@ -244,7 +244,7 @@ Se RAG for utilizado:
 
 A tecnologia de embedding deve permanecer substituível.
 
-## Hermes
+## Atena
 
 ### ai_conversations
 
