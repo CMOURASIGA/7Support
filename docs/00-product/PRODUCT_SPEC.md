@@ -10,7 +10,7 @@ Central de Atendimento e Suporte da Consult Services.
 
 ## Objetivo
 
-Centralizar o atendimento dos clientes dos sistemas desenvolvidos pela Consult Services, com rastreabilidade completa do ciclo do chamado, comunicação entre cliente e suporte, notificações, conhecimento reutilizável e apoio do assistente Hermes.
+Centralizar o atendimento dos clientes dos sistemas desenvolvidos pela Consult Services, com rastreabilidade completa do ciclo do chamado, comunicação entre cliente e suporte, notificações, conhecimento reutilizável e apoio do assistente Atena.
 
 ## Usuários
 
@@ -26,8 +26,8 @@ Pode:
 - acompanhar status;
 - consultar histórico;
 - avaliar atendimento;
-- utilizar o Hermes;
-- converter conversa do Hermes em chamado.
+- utilizar o Atena;
+- converter conversa do Atena em chamado.
 
 Não pode:
 - visualizar notas internas;
@@ -49,7 +49,7 @@ Pode:
 - alterar status e prioridade;
 - categorizar;
 - consultar histórico do cliente e produto dentro do escopo necessário ao suporte;
-- utilizar Hermes e base de conhecimento;
+- utilizar Atena e base de conhecimento;
 - registrar resolução.
 
 ### ADMIN
@@ -82,11 +82,11 @@ Além das permissões de suporte, pode:
 13. Chamado é resolvido.
 14. Cliente pode confirmar resolução, reabrir quando permitido e avaliar atendimento.
 
-## Fluxo Hermes
+## Fluxo Atena
 
-1. Usuário seleciona Hermes.
+1. Usuário seleciona Atena.
 2. O contexto permitido identifica cliente, usuário, produto e permissões.
-3. Hermes consulta apenas conhecimento autorizado e relacionado ao produto.
+3. Atena consulta apenas conhecimento autorizado e relacionado ao produto.
 4. Se houver evidência suficiente, responde com orientação operacional.
 5. Se não houver evidência suficiente, declara que não encontrou informação suficiente.
 6. Deve ser oferecida ação "Abrir chamado com esta conversa".
