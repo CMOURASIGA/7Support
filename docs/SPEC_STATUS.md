@@ -22,6 +22,11 @@ FOUNDATION SPEC - READY FOR DEVELOPMENT
 | Perfis | APPROVED | CLIENT, SUPPORT, ADMIN |
 | Tickets | APPROVED | código amigável CS-000001 |
 | Thread | APPROVED | respostas públicas + notas internas |
+| UX labels | APPROVED | estados e processos por labels/badges |
+| UX notifications | APPROVED | feedback de ações por toast/notificação |
+| UX drawers | APPROVED | consulta rápida e ações contextuais |
+| UX action icons | APPROVED | botões com ícones claros e tooltip |
+| E-mail no chamado | APPROVED | visível, vindo do 7Service e não editável no ticket |
 | E-mail | APPROVED | notificação desacoplada |
 | Conta operacional | APPROVED | contactconsultservices@gmail.com |
 | Gmail API | APPROVED | provider inicial via Google Cloud |
