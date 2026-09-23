@@ -20,7 +20,7 @@ Seguir a linguagem estrutural do 7Commander e dos produtos Consult Services:
 - Início
 - Meus chamados
 - Novo chamado
-- Hermes
+- Atena
 - Ajuda
 
 ### Dashboard
@@ -36,7 +36,7 @@ Bloco:
 
 Ações rápidas:
 - Novo chamado
-- Falar com Hermes
+- Falar com Atena
 
 ### Meus chamados
 
@@ -107,7 +107,7 @@ Composer:
 
 Eventos internos e notas internas não aparecem.
 
-### Hermes
+### Atena
 
 Tela de conversa:
 - seletor/contexto de produto quando necessário;
@@ -125,7 +125,7 @@ Tela de conversa:
 - Fila de atendimento
 - Todos os chamados
 - Base de conhecimento
-- Hermes
+- Atena
 - Relatórios
 - Administração, somente ADMIN
 
