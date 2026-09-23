@@ -206,7 +206,7 @@ Conteúdo interno nunca aparece para CLIENT.
 
 ---
 
-## SPEC 07 - Hermes Foundation
+## SPEC 07 - Atena + OpenAI Foundation
 
 ### Objetivo
 
@@ -218,7 +218,10 @@ Disponibilizar assistente de suporte com provider real controlado.
 - contexto de produto;
 - retrieval;
 - provider adapter;
-- OpenAI server-side;
+- OpenAI como provider inicial aprovado, exclusivamente server-side;
+- API key somente em secret de ambiente;
+- model configurável por ambiente;
+- provider adapter para evitar acoplamento;
 - prompt versionado;
 - timeout/retry;
 - ai_conversations;
@@ -241,7 +244,7 @@ Pergunta não coberta deve resultar em resposta de insuficiência e não em fato
 
 ---
 
-## SPEC 08 - Hermes Escalation to Ticket
+## SPEC 08 - Atena Escalation to Ticket
 
 ### Objetivo
 
