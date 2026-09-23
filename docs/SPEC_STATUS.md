@@ -13,9 +13,9 @@ FOUNDATION SPEC - READY FOR DEVELOPMENT
 | Nome | APPROVED | 7Support |
 | IA | APPROVED | Atena |
 | Papel do 7Support | APPROVED | Domínio de atendimento e suporte |
-| 7Service | APPROVED | Continua control plane administrativo |
-| 7HUB | APPROVED | Futuro portal do cliente |
-| Cliente no 7Service | REJECTED | Cliente não usa frontend administrativo |
+| 7Service | APPROVED | Control plane e origem da identidade central reutilizada pelo 7Support |
+| 7HUB | OUT OF SCOPE | Não consome 7Support no cenário atual; revisar apenas se houver decisão futura de produto |
+| Identidade compartilhada | APPROVED | Usuário criado no 7Service acessa 7Support com a mesma conta, sem cópia de senha |
 | Banco | APPROVED | Supabase/PostgreSQL |
 | Stack | APPROVED | padrão 7Commander |
 | Multi-tenant | APPROVED | isolamento obrigatório |
@@ -65,7 +65,6 @@ Estas pendências devem permanecer configuráveis ou explicitamente não impleme
 9. SPEC 09 SLA
 10. SPEC 10 Satisfaction/Reporting
 11. SPEC 11 7Service Integration
-12. SPEC 12 7HUB Integration
 
 ## Definition of Done inicial
 
