@@ -206,11 +206,11 @@ Conteúdo interno nunca aparece para CLIENT.
 
 ---
 
-## SPEC 07 - Atena + OpenAI Foundation
+## SPEC 07 - Atena + AI Router Foundation
 
 ### Objetivo
 
-Disponibilizar assistente de suporte com provider real controlado.
+Disponibilizar a Atena com AI Router multi-provider, OpenRouter como primário inicial e OpenAI como fallback.
 
 ### Entregas
 
@@ -218,9 +218,16 @@ Disponibilizar assistente de suporte com provider real controlado.
 - contexto de produto;
 - retrieval;
 - provider adapter;
-- OpenAI como provider inicial aprovado, exclusivamente server-side;
-- API key somente em secret de ambiente;
-- model configurável por ambiente;
+- AI Router server-side;
+- OpenRouter Adapter;
+- OpenAI Adapter;
+- OpenRouter como provider primário inicial para modelos free homologados;
+- OpenAI como fallback aprovado;
+- OPENROUTER_API_KEY e OPENAI_API_KEY somente em secrets de ambiente;
+- modelos configuráveis por ambiente;
+- allowlist de modelos OpenRouter homologados;
+- modos OPENROUTER_FREE, OPENAI e AUTO;
+- fallback observável;
 - provider adapter para evitar acoplamento;
 - prompt versionado;
 - timeout/retry;
@@ -396,7 +403,9 @@ Executar:
 - não usar e-mail como chave;
 - não permitir prioridade crítica escolhida diretamente pelo cliente;
 - não criar IA sem knowledge boundary;
-- não colocar OpenAI key no browser;
+- não colocar OpenRouter/OpenAI keys no browser;
+- não depender de modelo gratuito específico como disponibilidade permanente;
+- não usar fallback silencioso sem telemetria;
 - não implementar autoação em produtos nesta fase;
 - não hardcodar produtos atuais como enum estrutural;
 - não apagar histórico operacional pelo fluxo normal.
