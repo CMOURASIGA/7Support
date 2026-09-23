@@ -2,7 +2,7 @@
 
 Central de Atendimento e Suporte da Consult Services.
 
-O 7Support é o domínio responsável por abertura, acompanhamento e gestão de chamados dos produtos do ecossistema Consult Services, incluindo comunicação cliente-suporte, anexos, notificações, SLA, base de conhecimento, auditoria e o assistente Atena.
+O 7Support é o domínio responsável por abertura, acompanhamento e gestão de chamados dos produtos do ecossistema Consult Services, incluindo comunicação cliente-suporte, anexos, notificações, SLA, base de conhecimento, auditoria e a assistente Atena.
 
 ## Arquitetura do ecossistema
 
@@ -23,7 +23,9 @@ O 7Support não substitui nem duplica o 7Service.
 - Row Level Security
 - Vercel
 - Playwright
-- OpenAI server-side para Atena
+- AI Router server-side para Atena
+- OpenRouter como provider primário inicial para modelos gratuitos homologados
+- OpenAI como fallback e provider para fluxos que exijam maior previsibilidade
 - Gmail API/provider desacoplado para notificações
 
 ## Para desenvolver
@@ -37,9 +39,10 @@ Comece por:
 5. `docs/01-architecture/SECURITY_AND_AUTH.md`
 6. `docs/02-ux/UX_AND_NAVIGATION.md`
 7. `docs/03-integrations/INTEGRATIONS.md`
-8. `docs/DEV_IMPLEMENTATION_PLAN.md`
-9. `docs/FIRST_RELEASE_ACCEPTANCE.md`
-10. `docs/SPEC_STATUS.md`
+8. `docs/04-ai/ATENA_OPENAI.md`
+9. `docs/DEV_IMPLEMENTATION_PLAN.md`
+10. `docs/FIRST_RELEASE_ACCEPTANCE.md`
+11. `docs/SPEC_STATUS.md`
 
 ## Regra principal
 
