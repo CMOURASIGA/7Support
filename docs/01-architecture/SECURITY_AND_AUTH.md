@@ -21,7 +21,7 @@ CLIENT pode:
 - ler apenas mensagens públicas;
 - anexar arquivo a ticket autorizado;
 - avaliar ticket autorizado;
-- usar Hermes dentro do próprio contexto.
+- usar Atena dentro do próprio contexto.
 
 CLIENT nunca pode:
 - consultar outro tenant;
@@ -31,7 +31,7 @@ CLIENT nunca pode:
 - alterar prioridade interna;
 - acessar audit_logs globais;
 - acessar knowledge INTERNAL;
-- consultar prompts internos do Hermes.
+- consultar prompts internos do Atena.
 
 ## Escopo de ticket do cliente
 
@@ -52,7 +52,7 @@ SUPPORT pode:
 - alterar status, categoria e prioridade;
 - assumir/transferir conforme permissão;
 - ler conhecimento interno;
-- utilizar Hermes interno.
+- utilizar Atena interno.
 
 SUPPORT não deve administrar políticas globais sem permissão específica.
 
@@ -153,7 +153,7 @@ Nunca prefixar secrets administrativos com NEXT_PUBLIC.
 
 ## IA
 
-Hermes:
+Atena:
 - não recebe secrets;
 - não recebe dados de outros clientes;
 - não recebe payload integral de ticket quando não necessário;
@@ -180,7 +180,7 @@ Aplicar em:
 - criação de ticket;
 - upload;
 - respostas;
-- Hermes;
+- Atena;
 - endpoints de integração;
 - reenvio de notificação.
 
@@ -198,7 +198,7 @@ Registrar:
 - reabertura;
 - alteração de SLA/configuração;
 - manutenção de conhecimento;
-- escalonamento Hermes -> ticket.
+- escalonamento Atena -> ticket.
 
 ## Testes de segurança mínimos
 
