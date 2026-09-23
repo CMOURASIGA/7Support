@@ -81,6 +81,9 @@ Implementar identidade, perfis e isolamento.
 - ADMIN;
 - resolução de client/user context;
 - referências ao 7Service;
+- identidade central compartilhada;
+- mesma conta/credencial do usuário já criado no 7Service;
+- nenhuma cópia de senha;
 - RLS;
 - middleware/guards;
 - página forbidden;
@@ -194,7 +197,8 @@ Criar fonte de conhecimento confiável.
 - visibilidade CLIENT/INTERNAL/BOTH;
 - produto;
 - versão;
-- CRUD ADMIN;
+- CRUD ADMIN dentro do próprio 7Support;
+- estados DRAFT, IN_REVIEW, PUBLISHED e ARCHIVED;
 - busca;
 - ingestão inicial;
 - versionamento/checksum;
@@ -348,25 +352,9 @@ Produto não autorizado não aparece e não pode ser forçado por API.
 
 ---
 
-## SPEC 12 - 7HUB Integration
+# Estratégia de modelo por SPEC
 
-### Objetivo
-
-Expor experiência cliente no portal.
-
-### Entregas
-
-- contratos de API;
-- navegação;
-- deep links;
-- SSO/identidade compartilhada conforme arquitetura do ecossistema;
-- migração da superfície cliente sem duplicação de regra.
-
-### Aceite
-
-7HUB consome o domínio, não replica banco/lógica.
-
----
+Seguir obrigatoriamente `DEV_MODEL_ROUTING.md` para evitar uso desnecessário de modelos de maior custo. SOL é padrão para execução rotineira; ASTRA fica reservado para arquitetura, segurança, RLS, AI Router, integração 7Service e problemas complexos.
 
 # Gates de qualidade por SPEC
 
