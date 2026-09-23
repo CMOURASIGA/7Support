@@ -21,10 +21,15 @@ Cliente            Consult Services
             v
          7Support
             |
-   +--------+---------+---------+
-   |                  |         |
-Supabase           Gmail      OpenAI
-Tickets/RLS        Notify     Atena
+   +--------+---------+------------------+
+   |                  |                  |
+Supabase           Gmail             AI Router
+Tickets/RLS        Notify            Atena
+                                       |
+                              +--------+--------+
+                              |                 |
+                         OpenRouter           OpenAI
+                         Free Primary         Fallback
 ```
 
 ## Fonte de verdade
@@ -55,6 +60,36 @@ Fonte para:
 - notificações;
 - avaliações;
 - auditoria específica do suporte.
+
+## AI Router
+
+Atena não deve conhecer diretamente detalhes de OpenRouter ou OpenAI.
+
+Toda geração deve passar por um contrato interno de provider, por exemplo:
+
+```text
+AtenaService
+   -> AIRouter
+        -> OpenRouterAdapter
+        -> OpenAIAdapter
+```
+
+O router deve suportar pelo menos:
+
+- `OPENROUTER_FREE`: utiliza modelo gratuito homologado;
+- `OPENAI`: utiliza modelo OpenAI configurado;
+- `AUTO`: utiliza política configurada, com fallback controlado.
+
+O nome dos modelos não deve ficar hardcoded no domínio.
+
+## Política inicial de roteamento
+
+- perguntas operacionais simples e respostas baseadas em RAG podem usar OpenRouter Free;
+- somente modelos gratuitos previamente homologados devem ser usados;
+- não depender do router aleatório `openrouter/free` como garantia de produção;
+- falha, indisponibilidade, rate limit ou resposta inválida pode acionar fallback para OpenAI;
+- fluxos internos mais sensíveis ou que exijam previsibilidade podem usar OpenAI diretamente;
+- a política deve ser configurável por ambiente.
 
 ## Regra de integração
 
@@ -120,7 +155,8 @@ Exemplos:
 - leitura de notas internas;
 - geração de URL de anexo;
 - envio de e-mail;
-- acesso ao OpenAI;
+- acesso ao AI Router;
+- acesso a OpenRouter/OpenAI;
 - manutenção de base de conhecimento;
 - sincronização com 7Service.
 
@@ -144,13 +180,9 @@ Exemplos:
 
 Criar ticket e mensagem inicial é operação de negócio.
 
-Enviar e-mail é efeito colateral.
+Enviar e-mail ou chamar provider de IA é efeito colateral.
 
-Se o e-mail falhar:
-- ticket continua válido;
-- falha é registrada;
-- retry pode ocorrer;
-- usuário não perde o chamado.
+Falha de provider não deve corromper ticket nem histórico.
 
 ## Observabilidade
 
@@ -158,11 +190,17 @@ Registrar pelo menos:
 - request/correlation id;
 - actor id;
 - client id;
-- ticket id;
+- ticket id quando aplicável;
 - operation;
 - outcome;
 - duration;
-- provider externo quando aplicável;
+- provider;
+- model;
+- fallback_used;
+- fallback_reason;
+- input_tokens;
+- output_tokens;
+- custo estimado quando disponível;
 - erro sanitizado.
 
 Nunca registrar secrets, tokens, conteúdo sensível desnecessário ou payload integral enviado ao modelo.
@@ -178,4 +216,6 @@ Cada ambiente deve possuir:
 - Supabase próprio ou schema claramente isolado;
 - secrets próprios;
 - configuração de e-mail própria;
-- OpenAI key própria ou segregação equivalente.
+- OpenRouter key própria ou segregação equivalente;
+- OpenAI key própria ou segregação equivalente;
+- política de AI Router configurável.
