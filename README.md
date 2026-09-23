@@ -2,14 +2,14 @@
 
 Central de Atendimento e Suporte da Consult Services.
 
-O 7Support é o domínio responsável por abertura, acompanhamento e gestão de chamados dos produtos do ecossistema Consult Services, incluindo comunicação cliente-suporte, anexos, notificações, SLA, base de conhecimento, auditoria e o assistente Hermes.
+O 7Support é o domínio responsável por abertura, acompanhamento e gestão de chamados dos produtos do ecossistema Consult Services, incluindo comunicação cliente-suporte, anexos, notificações, SLA, base de conhecimento, auditoria e o assistente Atena.
 
 ## Arquitetura do ecossistema
 
 - **7Service**: control plane interno de clientes, usuários, produtos, contratos, licenças, acessos e entitlements.
 - **7Support**: domínio de atendimento e suporte.
 - **7HUB**: futuro portal do cliente e principal superfície de acesso ao suporte.
-- **Hermes**: assistente de suporte baseado em conhecimento autorizado.
+- **Atena**: assistente de suporte baseado em conhecimento autorizado.
 
 O 7Support não substitui nem duplica o 7Service.
 
@@ -23,7 +23,7 @@ O 7Support não substitui nem duplica o 7Service.
 - Row Level Security
 - Vercel
 - Playwright
-- OpenAI server-side para Hermes
+- OpenAI server-side para Atena
 - Gmail API/provider desacoplado para notificações
 
 ## Para desenvolver
