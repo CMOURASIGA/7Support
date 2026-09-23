@@ -2,7 +2,7 @@
 
 ## Visão
 
-O 7Support é um domínio separado, integrado ao 7Service e ao futuro 7HUB.
+O 7Support é um domínio separado, integrado ao 7Service para identidade, clientes, produtos e acessos.
 
 ```text
 7Service
@@ -10,16 +10,9 @@ O 7Support é um domínio separado, integrado ao 7Service e ao futuro 7HUB.
   v
 Identity / Access Context
   |
-  +-------------------+
-  |                   |
-  v                   v
-7HUB               7Support Internal
-Cliente            Consult Services
-  |                   |
-  +---------+---------+
-            |
             v
          7Support
+      Cliente + Interno
             |
    +--------+---------+------------------+
    |                  |                  |
@@ -120,7 +113,7 @@ actor
 
 ### Cliente
 
-Preferencialmente consumida pelo 7HUB:
+Superfície própria do 7Support:
 - dashboard;
 - meus chamados;
 - novo chamado;
@@ -128,11 +121,9 @@ Preferencialmente consumida pelo 7HUB:
 - Atena;
 - ajuda.
 
-Enquanto o 7HUB não existir, o 7Support pode oferecer uma superfície cliente própria, desde que a arquitetura permita migração posterior sem reescrever o domínio.
-
 ### Interna
 
-Pode existir no próprio 7Support ou ser embutida no 7Service:
+Existe no próprio 7Support:
 - dashboard operacional;
 - fila;
 - todos os chamados;
