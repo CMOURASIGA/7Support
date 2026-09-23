@@ -157,6 +157,18 @@ Após resolução/encerramento, permitir:
 - nota opcional de 1 a 5;
 - comentário opcional.
 
+## Padrões de experiência
+
+O 7Support deve seguir os padrões de interação já adotados nos sistemas Consult Services:
+
+- labels/badges para estados e processos;
+- notificações/toasts para sucesso, erro e feedback operacional;
+- drawers para consulta rápida e contexto sem abandonar a tela atual;
+- botões com ícones claros para ações recorrentes;
+- tooltips para ícones;
+- identidade do usuário e e-mail vindos da identidade central;
+- e-mail de notificação visível no chamado, mas não digitado novamente.
+
 ## Requisitos não funcionais
 
 - responsivo;
