@@ -144,7 +144,8 @@ Não permitir qualquer status -> qualquer status.
 
 Somente server-side:
 - SUPABASE_SERVICE_ROLE_KEY;
-- OpenAI API key;
+- OPENROUTER_API_KEY;
+- OPENAI_API_KEY;
 - Gmail credentials;
 - signing secrets;
 - webhook secrets.
@@ -212,3 +213,13 @@ Registrar:
 8. OpenAI key não aparece no cliente.
 9. tentativa de prompt injection não amplia acesso.
 10. ticket continua íntegro se e-mail/provider falhar.
+
+
+## Identidade central do 7Service
+
+Usuários finais devem reutilizar a mesma identidade administrada pelo 7Service.
+
+O 7Support não cria segunda senha para usuário já existente.
+
+A autenticação deve usar o identificador central e o mesmo provedor de identidade. Senhas e hashes nunca são copiados, lidos ou sincronizados entre bancos.
+
