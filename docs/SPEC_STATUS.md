@@ -13,9 +13,9 @@ FOUNDATION SPEC - READY FOR DEVELOPMENT
 | Nome | APPROVED | 7Support |
 | IA | APPROVED | Atena |
 | Papel do 7Support | APPROVED | Domínio de atendimento e suporte |
-| 7Service | APPROVED | Control plane e origem da identidade central reutilizada pelo 7Support |
+| 7Service | DEFERRED | integração ocorrerá após o 7Support estar operacional |
 | 7HUB | OUT OF SCOPE | Não consome 7Support no cenário atual; revisar apenas se houver decisão futura de produto |
-| Identidade compartilhada | APPROVED | Usuário criado no 7Service acessa 7Support com a mesma conta, sem cópia de senha |
+| Identidade inicial | APPROVED | Supabase Auth local no 7Support; identidade central fica para fase posterior |
 | Banco | APPROVED | Supabase/PostgreSQL |
 | Stack | APPROVED | padrão 7Commander |
 | Multi-tenant | APPROVED | isolamento obrigatório |
@@ -26,7 +26,7 @@ FOUNDATION SPEC - READY FOR DEVELOPMENT
 | UX notifications | APPROVED | feedback de ações por toast/notificação |
 | UX drawers | APPROVED | consulta rápida e ações contextuais |
 | UX action icons | APPROVED | botões com ícones claros e tooltip |
-| E-mail no chamado | APPROVED | visível, vindo do 7Service e não editável no ticket |
+| E-mail no chamado | APPROVED | visível, vindo do cadastro local do usuário e não editável no ticket |
 | E-mail | APPROVED | notificação desacoplada |
 | Conta operacional | APPROVED | contactconsultservices@gmail.com |
 | Gmail API | APPROVED | provider inicial via Google Cloud |
@@ -60,7 +60,7 @@ Estas pendências devem permanecer configuráveis ou explicitamente não impleme
 ## Ordem autorizada
 
 1. SPEC 01 Foundation
-2. SPEC 02 Identity/Roles/Tenant
+2. SPEC 02 Local Identity/Roles/Tenant
 3. SPEC 03 Ticket Core
 4. SPEC 04 Support Operations
 5. SPEC 05 Notifications
@@ -69,7 +69,7 @@ Estas pendências devem permanecer configuráveis ou explicitamente não impleme
 8. SPEC 08 Atena Escalation
 9. SPEC 09 SLA
 10. SPEC 10 Satisfaction/Reporting
-11. SPEC 11 7Service Integration
+11. SPEC 11 7Service Integration, somente após sistema operacional completo
 
 ## Definition of Done inicial
 
@@ -94,6 +94,8 @@ A primeira versão utilizável deve permitir:
 
 Atena pode entrar após o ticket core estar validado.
 
-## Gate
+## Gate atual
 
-O repositório está documentalmente autorizado para início da SPEC 01, respeitando `DEV_START_HERE.md` e `DEV_IMPLEMENTATION_PLAN.md`.
+SPEC 01 aprovada. Próxima etapa autorizada: SPEC 02 Local Identity, Roles and Tenant Boundary.
+
+A integração com 7Service não deve ser antecipada.
