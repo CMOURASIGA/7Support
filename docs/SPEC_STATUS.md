@@ -4,7 +4,7 @@
 
 ## Status geral
 
-SPEC 02 - LOCAL VALIDATION IN PROGRESS
+SPEC 02 - LOCAL VALIDATION IN PROGRESS. SPEC 02.1 - VISUAL ALIGNMENT WITH 7COMMANDER IN VALIDATION.
 
 ## Decisões aprovadas
 
@@ -61,15 +61,16 @@ Estas pendências devem permanecer configuráveis ou explicitamente não impleme
 
 1. SPEC 01 Foundation
 2. SPEC 02 Local Identity/Roles/Tenant
-3. SPEC 03 Ticket Core
-4. SPEC 04 Support Operations
-5. SPEC 05 Notifications
-6. SPEC 06 Knowledge Base
-7. SPEC 07 Atena + AI Router Foundation
-8. SPEC 08 Atena Escalation
-9. SPEC 09 SLA
-10. SPEC 10 Satisfaction/Reporting
-11. SPEC 11 7Service Integration, somente após sistema operacional completo
+3. SPEC 02.1 Visual Alignment with 7Commander, homologação obrigatória antes de Ticket Core
+4. SPEC 03 Ticket Core
+5. SPEC 04 Support Operations
+6. SPEC 05 Notifications
+7. SPEC 06 Knowledge Base
+8. SPEC 07 Atena + AI Router Foundation
+9. SPEC 08 Atena Escalation
+10. SPEC 09 SLA
+11. SPEC 10 Satisfaction/Reporting
+12. SPEC 11 7Service Integration, somente após sistema operacional completo
 
 ## Decisão temporária da SPEC 02
 
@@ -102,6 +103,6 @@ Atena pode entrar após o ticket core estar validado.
 
 ## Gate atual
 
-SPEC 01 aprovada. Próxima etapa autorizada: SPEC 02 Local Identity, Roles and Tenant Boundary.
+SPEC 01 aprovada. SPEC 02 funcional em modo local. Gate atual: homologar SPEC 02.1 Visual Alignment with 7Commander antes de iniciar SPEC 03. Consultar `docs/01-architecture/SPEC_02_1_VISUAL_ALIGNMENT_WITH_7COMMANDER.md`.
 
 A integração com 7Service não deve ser antecipada.

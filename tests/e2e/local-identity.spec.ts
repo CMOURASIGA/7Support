@@ -23,7 +23,8 @@ test.describe("SPEC 02 local identity", () => {
     await page.getByRole("button", { name: "Entrar" }).click();
     await expect(page.getByText("Contexto isolado: Cliente Alpha.")).toBeVisible();
     await expect(page.getByText("7Commander")).toBeVisible();
-    await page.getByRole("button", { name: "Sair" }).click();
+    await page.getByRole("button", { name: "Menu do usuário" }).click();
+    await page.getByRole("menuitem", { name: "Sair" }).click();
     await page.getByLabel("E-mail").fill("cliente.beta@demo.7support.local");
     await page.getByLabel("Senha").fill("demo-beta");
     await page.getByRole("button", { name: "Entrar" }).click();
@@ -39,7 +40,8 @@ test.describe("SPEC 02 local identity", () => {
     await page.getByRole("button", { name: "Entrar" }).click();
     await expect(page.getByText("Contexto interno autorizado para o papel autenticado.")).toBeVisible();
     await expect(page.getByText("SUPPORT")).toBeVisible();
-    await page.getByRole("button", { name: "Sair" }).click();
-    await expect(page.getByRole("heading", { name: "Acessar central de atendimento" })).toBeVisible();
+    await page.getByRole("button", { name: "Menu do usuário" }).click();
+    await page.getByRole("menuitem", { name: "Sair" }).click();
+    await expect(page.getByRole("heading", { name: "Entrar no 7Support" })).toBeVisible();
   });
 });

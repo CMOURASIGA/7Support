@@ -1,13 +1,42 @@
 "use client";
 
-import { CircleHelp, Home, LifeBuoy, Menu, PlusCircle, Settings } from "lucide-react";
-import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { Home, X } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { useAuth } from "@/features/auth/auth-context";
 
-export function Sidebar() {
-  const [open, setOpen] = useState(false);
+export function Sidebar({ isMobileOpen, onCloseMobile }: { isMobileOpen: boolean; onCloseMobile: () => void }) {
+  const pathname = usePathname();
   const { user } = useAuth();
-  const items = [{ label: "Início", icon: Home, active: true }, { label: user?.role === "CLIENT" ? "Meus chamados" : "Chamados", icon: LifeBuoy }, ...(user?.role === "CLIENT" ? [{ label: "Novo chamado", icon: PlusCircle }] : []), ...(user?.role === "ADMIN" ? [{ label: "Administração", icon: Settings }] : []), { label: "Ajuda", icon: CircleHelp }];
-  return <><button className="fixed left-4 top-4 z-30 rounded-lg border border-slate-300 bg-white p-2 lg:hidden" aria-label="Abrir menu" onClick={() => setOpen(true)}><Menu /></button><aside className={cn("fixed inset-y-0 left-0 z-40 flex w-72 flex-col border-r border-slate-200 bg-slate-950 p-4 text-slate-100 transition-transform lg:static lg:translate-x-0", open ? "translate-x-0" : "-translate-x-full")}><div className="mb-8 px-3"><p className="text-xl font-bold tracking-tight">7Support</p><p className="mt-1 text-sm text-slate-400">{user?.role === "CLIENT" ? "Área do cliente" : "Central de atendimento"}</p></div><nav className="space-y-1">{items.map(({ label, icon: Icon, active }) => <button key={label} className={cn("flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-medium", active ? "bg-support-500 text-white" : "text-slate-300 hover:bg-slate-800 hover:text-white")}><Icon size={18} />{label}</button>)}</nav><div className="mt-auto rounded-lg bg-slate-900 p-3 text-xs text-slate-400">SPEC 02 · Identidade local<br />{user?.role ?? "Carregando"}</div></aside>{open && <button aria-label="Fechar menu" className="fixed inset-0 z-30 bg-slate-950/40 lg:hidden" onClick={() => setOpen(false)} />}</>;
+  // A navegação da SPEC 02 só aponta para rotas existentes. Ticket Core entra na SPEC 03.
+  const sections = [
+    { label: "Principal", items: [{ label: "Início", href: "/", icon: Home }] },
+  ];
+  return <>
+    {isMobileOpen && <button type="button" aria-label="Fechar menu" className="sidebar-backdrop md:hidden" onClick={onCloseMobile} />}
+    <aside id="app-sidebar" className={cn("sidebar-shell flex min-h-screen flex-col text-white md:self-stretch", isMobileOpen && "is-open")} aria-label="Menu principal">
+      <div className="relative px-4 pt-4 md:px-2 lg:px-4">
+        <div className="flex h-[144px] items-center justify-center overflow-hidden rounded-xl bg-white p-2 shadow-sm md:h-[52px] lg:h-[144px]">
+          <Image src="https://i.imgur.com/gxXnYsA.png" unoptimized width={188} height={132} alt="Consult Services Tecnologia" className="max-h-full max-w-full object-contain" />
+        </div>
+        <button type="button" onClick={onCloseMobile} className="absolute right-6 top-6 rounded-full bg-white/15 p-2 md:hidden" aria-label="Fechar menu"><X size={18} /></button>
+      </div>
+      <div className="sidebar-rail-only border-b border-white/15 px-4 pb-6 pt-6">
+        <p className="text-[10px] font-extrabold uppercase tracking-[.22em] text-[var(--brand-highlight)]">7Support</p>
+        <p className="mt-1.5 text-[13px] font-semibold leading-snug text-white">Central de atendimento e suporte</p>
+      </div>
+      <nav className="flex flex-col gap-5 px-3 py-4 md:px-2 lg:px-3">
+        {sections.map((section) => <div key={section.label}>
+          <p className="sidebar-rail-only mb-2 px-2 text-[10px] font-extrabold uppercase tracking-[.12em] text-[#a9dffc]">{section.label}</p>
+          <div className="flex flex-col gap-1">{section.items.map(({ label, href, icon: Icon }) => {
+            const active = href === "/" ? pathname === "/" : pathname === href;
+            return <Link key={href} href={href} title={label} aria-label={label} aria-current={active ? "page" : undefined} onClick={onCloseMobile} className={cn("sidebar-nav-link flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors md:justify-center lg:justify-start", active && "sidebar-nav-link-active shadow-sm")}><Icon size={18} aria-hidden="true" /><span className="sidebar-rail-only">{label}</span></Link>;
+          })}</div>
+        </div>)}
+      </nav>
+      <div className="sidebar-rail-only mt-auto border-t border-white/15 px-5 py-4 text-xs text-[#bfeaff]">{user?.role === "CLIENT" ? "Área do cliente" : "Operação interna"}</div>
+    </aside>
+  </>;
 }
