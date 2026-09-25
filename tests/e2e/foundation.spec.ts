@@ -19,10 +19,10 @@ test("navegação móvel e resumo usam gavetas acessíveis", async ({ page }) =>
   await page.getByRole("button", { name: "Abrir menu" }).click();
   await expect(page.getByRole("navigation").getByRole("link", { name: "Início" })).toBeVisible();
   await page.getByRole("button", { name: "Fechar menu" }).first().click();
-  await page.getByRole("button", { name: "Visualizar resumo" }).click();
-  await expect(page.getByRole("dialog", { name: "Resumo de identidade" })).toBeVisible();
+  await page.getByRole("button", { name: /Visualizar CS-/ }).first().click();
+  await expect(page.getByRole("dialog", { name: /CS-/ })).toBeVisible();
   await page.keyboard.press("Escape");
-  await expect(page.getByRole("dialog", { name: "Resumo de identidade" })).not.toBeVisible();
+  await expect(page.getByRole("dialog")).not.toBeVisible();
   await expect(page.locator("body")).toHaveJSProperty("scrollWidth", 390);
 });
 

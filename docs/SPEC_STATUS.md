@@ -1,10 +1,10 @@
 # 7Support - Specification Status
 
-**Data de referência:** 23/09/2026
+**Data de referência:** 25/09/2026
 
 ## Status geral
 
-SPEC 02 - LOCAL VALIDATION IN PROGRESS. SPEC 02.1 - VISUAL ALIGNMENT WITH 7COMMANDER IN VALIDATION.
+SPEC 01 APPROVED. SPEC 02 APPROVED (modo local). SPEC 02.1 APPROVED (fundação visual). SPEC 03 TICKET CORE em validação.
 
 ## Decisões aprovadas
 
@@ -103,6 +103,6 @@ Atena pode entrar após o ticket core estar validado.
 
 ## Gate atual
 
-SPEC 01 aprovada. SPEC 02 funcional em modo local. Gate atual: homologar SPEC 02.1 Visual Alignment with 7Commander antes de iniciar SPEC 03. Consultar `docs/01-architecture/SPEC_02_1_VISUAL_ALIGNMENT_WITH_7COMMANDER.md`.
+SPEC 01, 02 e 02.1 aprovadas. A homologação visual completa ocorrerá após as rotinas das SPECs 03 e 04. Gate atual: validar a SPEC 03 local-first conforme `docs/01-architecture/SPEC_03_LOCAL_TICKET_CORE.md`. Não iniciar SPEC 04 sem autorização.
 
 A integração com 7Service não deve ser antecipada.
