@@ -4,7 +4,7 @@
 
 ## Status geral
 
-FOUNDATION SPEC - READY FOR DEVELOPMENT
+SPEC 02 - LOCAL VALIDATION IN PROGRESS
 
 ## Decisões aprovadas
 
@@ -70,6 +70,12 @@ Estas pendências devem permanecer configuráveis ou explicitamente não impleme
 9. SPEC 09 SLA
 10. SPEC 10 Satisfaction/Reporting
 11. SPEC 11 7Service Integration
+
+## Decisão temporária da SPEC 02
+
+A validação inicial de login, sessão, papéis e contexto de tenant será realizada em LocalStorage com identidades fictícias. O Supabase não será provisionado antes da validação funcional.
+
+O documento `docs/01-architecture/SPEC_02_LOCAL_MODE_AND_SUPABASE_ACTIVATION.md` define o schema, a migration e o RLS obrigatórios para ativação futura. LocalStorage não substitui RLS e não pode receber dados reais.
 
 ## Definition of Done inicial
 
