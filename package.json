@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test:e2e": "playwright test",
+    "test:unit": "node --test tests/unit/*.cjs",
     "test": "npm run typecheck && npm run test:e2e"
   },
   "dependencies": {
