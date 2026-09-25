@@ -25,13 +25,18 @@ Validar:
 ## SPEC 02
 
 Validar:
+- login local;
+- logout;
+- recuperação de sessão;
 - CLIENT;
 - SUPPORT;
 - ADMIN;
-- tenant A x tenant B;
+- cliente A x cliente B;
 - forbidden;
-- mesma identidade central do 7Service;
-- sem segunda senha.
+- RLS;
+- isolamento entre tenants;
+- campos external_* opcionais preparados;
+- nenhum requisito de integração 7Service nesta fase.
 
 ## SPEC 03
 

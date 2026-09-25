@@ -82,7 +82,7 @@ Para ler ticket:
 ```text
 authenticated_user
 AND actor_type = CLIENT
-AND ticket.requester_user_id = actor.external_user_id
+AND ticket.requester_user_id = actor.user_id
 ```
 
 ou política organizacional futura explicitamente autorizada.
@@ -214,12 +214,21 @@ Registrar:
 9. tentativa de prompt injection não amplia acesso.
 10. ticket continua íntegro se e-mail/provider falhar.
 
+## Estratégia de identidade por fase
 
-## Identidade central do 7Service
+### Fase operacional inicial
 
-Usuários finais devem reutilizar a mesma identidade administrada pelo 7Service.
+O 7Support utiliza autenticação local com Supabase Auth e mantém seus próprios usuários, clientes, produtos e vínculos necessários ao funcionamento do sistema.
 
-O 7Support não cria segunda senha para usuário já existente.
+Os registros devem possuir estrutura preparada para futura integração, por exemplo:
+- id local estável;
+- external_user_id opcional;
+- external_client_id opcional;
+- identity_source;
+- sync_status quando aplicável.
 
-A autenticação deve usar o identificador central e o mesmo provedor de identidade. Senhas e hashes nunca são copiados, lidos ou sincronizados entre bancos.
+### Fase futura - integração 7Service
 
+Quando a integração for implementada, a identidade local deve ser migrada/vinculada à identidade central sem quebrar tickets, mensagens, auditoria ou histórico.
+
+A integração futura não deve copiar, ler ou sincronizar senhas/hashes entre sistemas.

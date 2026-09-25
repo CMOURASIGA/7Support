@@ -46,7 +46,7 @@ Reservar para:
 | SPEC | Modelo preferencial | Esforço |
 |---|---|---|
 | 01 Foundation | SOL | Médio |
-| 02 Identity, Roles and Tenant Boundary | ASTRA | Avançado |
+| 02 Local Identity, Roles and Tenant Boundary | SOL | Médio |
 | 03 Ticket Core | SOL | Médio |
 | 04 Support Operations | SOL | Médio |
 | 05 Notifications | SOL | Médio |

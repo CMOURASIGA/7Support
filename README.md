@@ -6,11 +6,11 @@ O 7Support é o domínio responsável por abertura, acompanhamento e gestão de 
 
 ## Arquitetura do ecossistema
 
-- **7Service**: control plane interno de clientes, usuários, produtos, contratos, licenças, acessos e entitlements.
+- **7Service**: integração futura para identidade e dados mestres, somente após o 7Support estar operacional.
 - **7Support**: domínio de atendimento e suporte.
 - **Atena**: assistente de suporte baseado em conhecimento autorizado.
 
-O 7Support não substitui nem duplica o 7Service.
+O 7Support será desenvolvido primeiro como sistema autônomo. A integração com o 7Service é uma etapa posterior.
 
 ## Stack de referência
 
@@ -49,4 +49,4 @@ Comece por:
 
 ## Regra principal
 
-O desenvolvedor não deve inventar regras permanentes para itens marcados como pendentes em `SPEC_STATUS.md`. O desenvolvimento deve seguir a ordem das SPECs e preservar segurança, isolamento multi-tenant, auditoria e compatibilidade com a identidade central e o 7Service.
+O desenvolvedor não deve inventar regras permanentes para itens marcados como pendentes em `SPEC_STATUS.md`. O desenvolvimento deve seguir a ordem das SPECs e preservar segurança, isolamento multi-tenant, auditoria e preparação para futura integração com o 7Service.

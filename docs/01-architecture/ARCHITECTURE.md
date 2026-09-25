@@ -2,7 +2,7 @@
 
 ## Visão
 
-O 7Support é um domínio separado, integrado ao 7Service para identidade, clientes, produtos e acessos.
+O 7Support é um domínio separado e deve ser construído primeiro como sistema operacional autônomo. A integração com o 7Service para identidade, clientes, produtos e acessos ocorrerá em fase posterior.
 
 ```text
 7Service
@@ -84,9 +84,11 @@ O nome dos modelos não deve ficar hardcoded no domínio.
 - fluxos internos mais sensíveis ou que exijam previsibilidade podem usar OpenAI diretamente;
 - a política deve ser configurável por ambiente.
 
-## Regra de integração
+## Regra de integração futura
 
-O 7Support não deve duplicar cadastro mestre do 7Service como autoridade.
+Durante a fase autônoma, o 7Support pode manter cadastros locais necessários à operação. Esses registros devem possuir campos preparados para futura vinculação ao 7Service.
+
+Após a integração, o 7Support não deve competir com o 7Service como autoridade dos cadastros mestres.
 
 Pode manter referências externas e snapshots mínimos necessários para histórico e resiliência, por exemplo:
 - external_client_id;
@@ -94,7 +96,7 @@ Pode manter referências externas e snapshots mínimos necessários para histór
 - external_product_id;
 - display_name_snapshot.
 
-Snapshots nunca substituem a autoridade do 7Service para decisões atuais de acesso.
+Antes da integração, a autoridade é local. Depois da integração, snapshots locais não substituem a autoridade do 7Service para decisões atuais de acesso.
 
 ## Contexto de autorização
 
@@ -149,7 +151,7 @@ Exemplos:
 - acesso ao AI Router;
 - acesso a OpenRouter/OpenAI;
 - manutenção de base de conhecimento;
-- sincronização com 7Service.
+- sincronização com 7Service, somente quando a SPEC de integração for iniciada.
 
 ## Eventos
 
