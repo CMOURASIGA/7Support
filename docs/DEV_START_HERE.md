@@ -9,10 +9,10 @@ Ele deve permitir que clientes abram, acompanhem e respondam chamados, recebam n
 ## Fronteiras obrigatórias
 
 1. O 7Support não substitui o 7Service.
-2. O 7Service continua sendo a fonte administrativa de clientes, usuários, produtos, contratos, licenças, acessos e entitlements.
+2. No ciclo inicial de desenvolvimento, o 7Support deve operar de forma autônoma com identidade e cadastros locais próprios do domínio. A integração com o 7Service será feita somente após o sistema estar operacional.
 3. O 7Support mantém somente dados do domínio de atendimento.
 4. O 7Support possui sua própria superfície de acesso ao cliente.
-5. A equipe Consult Services opera o atendimento no próprio 7Support; o 7Service fornece identidade, clientes, produtos e acessos.
+5. A equipe Consult Services opera o atendimento no próprio 7Support. Durante a construção do produto, identidade, clientes, usuários, produtos e acessos necessários ao suporte podem existir localmente no 7Support.
 6. Cliente nunca deve receber acesso a telas administrativas do 7Service.
 7. Atena é uma assistente de suporte, não uma autoridade sobre regras de negócio e não pode inventar funcionalidades ou estados do produto.
 8. E-mail é canal de notificação, não fonte de verdade do chamado.
@@ -32,7 +32,7 @@ Seguir o padrão do 7Commander:
 - TypeScript
 - Tailwind CSS
 - Supabase/PostgreSQL
-- Supabase Auth ou identidade central compatível
+- Supabase Auth local na primeira fase, preparado para futura identidade central
 - Row Level Security
 - APIs/Server Actions/Edge Functions para operações privilegiadas
 - Vercel
@@ -62,6 +62,6 @@ Seguir o padrão do 7Commander:
 
 O desenvolvedor não deve começar por telas isoladas. A ordem correta é:
 
-fundação técnica -> identidade/autorização -> banco/RLS -> tickets -> atendimento -> notificações -> conhecimento -> Atena/AI Router -> SLA/métricas -> integrações ampliadas.
+fundação técnica -> identidade/autorização local -> banco/RLS -> tickets -> atendimento -> notificações -> conhecimento -> Atena/AI Router -> SLA/métricas -> sistema operacional completo -> integração 7Service.
 
 Qualquer regra não definida deve ser tratada como pendência de especificação, não como liberdade para inventar comportamento.
