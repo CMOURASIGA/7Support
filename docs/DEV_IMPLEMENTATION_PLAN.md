@@ -72,22 +72,25 @@ docs/
 
 ---
 
-## SPEC 02 - Identity, Roles and Tenant Boundary
+## SPEC 02 - Local Identity, Roles and Tenant Boundary
 
 ### Objetivo
 
-Implementar identidade, perfis e isolamento.
+Implementar identidade local do 7Support, perfis e isolamento, sem integração com 7Service nesta fase.
 
 ### Entregas
 
+- Supabase Auth local;
 - CLIENT;
 - SUPPORT;
 - ADMIN;
+- clientes locais;
+- usuários locais;
+- produtos locais mínimos para o domínio;
+- vínculos usuário-cliente/produto;
 - resolução de client/user context;
-- referências ao 7Service;
-- identidade central compartilhada;
-- mesma conta/credencial do usuário já criado no 7Service;
-- nenhuma cópia de senha;
+- campos external_* preparados, mas opcionais;
+- identity_source = LOCAL nesta fase;
 - RLS;
 - middleware/guards;
 - página forbidden;
@@ -124,7 +127,7 @@ Implementar abertura e consulta de chamados.
 ### Regras
 
 - identidade preenchida automaticamente;
-- e-mail de notificação exibido a partir do 7Service e não editável no chamado;
+- e-mail de notificação exibido a partir do cadastro local do usuário e não editável no chamado;
 - feedback de abertura por toast/notificação;
 - labels para status e impacto;
 - drawer para resumo rápido onde aplicável;
@@ -338,11 +341,11 @@ Métricas derivadas de dados reais, sem mocks.
 
 ---
 
-## SPEC 11 - 7Service Integration
+## SPEC 11 - 7Service Integration (post-operational)
 
 ### Objetivo
 
-Substituir quaisquer mocks/projeções provisórias por integração oficial.
+Integrar o sistema já operacional ao 7Service, substituindo progressivamente autoridades locais pelos dados mestres oficiais sem quebrar histórico.
 
 ### Entregas
 
@@ -364,7 +367,7 @@ Produto não autorizado não aparece e não pode ser forçado por API.
 
 # Estratégia de modelo por SPEC
 
-Seguir obrigatoriamente `DEV_MODEL_ROUTING.md` para evitar uso desnecessário de modelos de maior custo. SOL é padrão para execução rotineira; ASTRA fica reservado para arquitetura, segurança, RLS, AI Router, integração 7Service e problemas complexos.
+Seguir obrigatoriamente `DEV_MODEL_ROUTING.md`. Como a SPEC 02 agora trata de autenticação local e não de integração central, usar SOL como modelo principal, escalando para ASTRA somente em pontos de RLS/segurança realmente complexos. ASTRA continua reservado principalmente para AI Router, integração 7Service e problemas transversais.
 
 # Gates de qualidade por SPEC
 
