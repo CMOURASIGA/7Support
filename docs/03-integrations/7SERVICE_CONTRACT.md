@@ -1,54 +1,51 @@
-# 7Support - Contrato com 7Service
+# 7Support - Contrato Futuro com 7Service
 
-## Objetivo
+## Status
 
-Reutilizar no 7Support os clientes, usuários, produtos e identidade administrados pelo 7Service.
+PLANEJADO - NÃO BLOQUEIA O DESENVOLVIMENTO OPERACIONAL DO 7SUPPORT.
 
-## Decisão
+## Estratégia
 
-O usuário criado e ativado no 7Service deve utilizar a mesma identidade para acessar o 7Support.
+O 7Support deve ser construído primeiro como sistema completo e operacional de forma autônoma.
 
-Isso significa mesma conta e mesma credencial de autenticação.
+Somente após tickets, suporte, notificações, base de conhecimento, Atena, SLA e relatórios estarem validados será iniciada a integração com o 7Service.
 
-Não significa copiar, sincronizar ou armazenar senha entre sistemas.
+## Fase atual
 
-## Regra de identidade
+O 7Support mantém localmente:
+- usuários;
+- clientes;
+- produtos;
+- vínculos usuário-cliente;
+- vínculos usuário-produto;
+- papéis;
+- acessos necessários ao domínio de suporte.
 
-A arquitetura deve evoluir para uma identidade central compartilhada.
+Autenticação inicial:
+- Supabase Auth do próprio 7Support.
 
-```text
-7Service
-  -> identidade central
-       -> 7Commander
-       -> 7Protect
-       -> outros produtos
-       -> 7Support
-```
+## Preparação obrigatória
 
-7Support deve confiar no identificador central da identidade.
+Mesmo operando localmente, manter campos que facilitem integração futura:
+- external_user_id nullable;
+- external_client_id nullable;
+- external_product_id nullable;
+- identity_source;
+- sync_status quando necessário.
 
-Nunca criar uma segunda senha apenas para suporte quando o usuário já possui identidade ativa.
+IDs internos do 7Support permanecem estáveis e nunca devem ser substituídos por IDs externos.
 
-## Dados consumidos
+## Fase futura
 
-O 7Support precisa obter pelo menos:
+Quando a integração for autorizada:
+- 7Service passa a fornecer identidade e dados mestres;
+- usuários existentes devem ser reconciliados;
+- produtos e acessos devem ser sincronizados;
+- histórico do 7Support permanece intacto;
+- nenhuma senha/hash é copiada;
+- autenticação deve evoluir para identidade compartilhada/central.
 
-- central_user_id;
-- external_client_id;
-- user display name;
-- e-mail;
-- status do usuário;
-- external_product_id;
-- product code;
-- product display name;
-- role por produto quando relevante;
-- entitlement/access status.
-
-## Produtos no suporte
-
-Ao abrir chamado, o cliente só pode selecionar produtos aos quais possui acesso ou vínculo válido conforme política do 7Service.
-
-## Senhas
+## Regra de senha
 
 Proibido:
 - copiar hash de senha;
@@ -57,33 +54,14 @@ Proibido:
 - sincronizar senha entre Supabases;
 - enviar senha por integração.
 
-Autenticação deve ser resolvida pelo provedor de identidade central.
+## Reconciliação futura
 
-## Disponibilidade
-
-Falha temporária do 7Service não deve apagar nem corromper tickets existentes.
-
-Para autorização atual:
-- usar projeção/cache local com validade definida;
-- revalidar na autoridade para operações críticas conforme arquitetura disponível;
-- registrar estado de sincronização.
-
-## Provisionamento
-
-Ao criar/ativar usuário no 7Service:
-- identidade central existe;
-- usuário pode ser projetado/sincronizado para 7Support;
-- acesso ao suporte é concedido conforme política aprovada;
-- login ocorre com a mesma identidade.
-
-## Reconciliação
-
-Deve existir mecanismo para detectar:
-- usuário ausente localmente;
-- usuário bloqueado;
+Deve detectar:
+- usuário local sem correspondente;
+- usuário central bloqueado;
 - produto removido;
 - entitlement alterado;
-- divergência de client_id;
+- divergência de cliente;
 - dado desatualizado.
 
-Nenhuma reconciliação deve alterar histórico de tickets.
+Nenhuma reconciliação pode apagar ou reescrever histórico de tickets.
