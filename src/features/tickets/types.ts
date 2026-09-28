@@ -4,6 +4,11 @@ export const impacts = ["LOW_IMPACT", "PARTIAL_IMPACT", "BLOCKING"] as const;
 export type TicketImpact = (typeof impacts)[number];
 export const ticketStatuses = ["OPEN", "IN_PROGRESS", "WAITING_CUSTOMER", "UNDER_ANALYSIS", "RESOLVED", "CLOSED", "REOPENED"] as const;
 export type TicketStatus = (typeof ticketStatuses)[number];
+export const priorities = ["LOW", "MEDIUM", "HIGH", "CRITICAL"] as const;
+export type TicketPriority = (typeof priorities)[number];
+export const categories = ["QUESTION", "INCIDENT", "ACCESS", "SERVICE_REQUEST", "IMPROVEMENT"] as const;
+export type TicketCategory = (typeof categories)[number];
+export type TicketOperator = { id: string; displayName: string };
 
 export type TicketAttachment = {
   id: string;
@@ -23,7 +28,7 @@ export type TicketMessage = {
   authorUserId: string;
   authorName: string;
   authorType: "CLIENT" | "SUPPORT";
-  visibility: "PUBLIC_REPLY";
+  visibility: "PUBLIC_REPLY" | "INTERNAL_NOTE";
   body: string;
   createdAt: string;
   attachments: TicketAttachment[];
@@ -31,8 +36,11 @@ export type TicketMessage = {
 export type TicketEvent = {
   id: string;
   ticketId: string;
-  eventType: "CREATED" | "PUBLIC_REPLY_CREATED" | "STATUS_CHANGED";
+  eventType: "CREATED" | "PUBLIC_REPLY_CREATED" | "INTERNAL_NOTE_CREATED" | "STATUS_CHANGED" | "ASSIGNED" | "TRANSFERRED" | "PRIORITY_CHANGED" | "CATEGORY_CHANGED";
   actorUserId: string | null;
+  actorName?: string;
+  correlationId?: string;
+  audience?: "PUBLIC" | "INTERNAL";
   createdAt: string;
   oldStatus?: TicketStatus;
   newStatus?: TicketStatus;
@@ -52,6 +60,9 @@ export type Ticket = {
   type: TicketType;
   impact: TicketImpact;
   status: TicketStatus;
+  priority: TicketPriority;
+  category: TicketCategory;
+  assignedToUserId: string | null;
   subject: string;
   createdAt: string;
   updatedAt: string;
@@ -61,8 +72,10 @@ export type Ticket = {
 export type AttachmentInput = { originalFilename: string; mimeType: string; sizeBytes: number; dataUrl: string };
 export type NewTicketInput = { productId: string; type: TicketType; impact: TicketImpact; subject: string; description: string; attachments: AttachmentInput[] };
 export type ReplyInput = { body: string; attachments: AttachmentInput[] };
-export type TicketDatabase = { version: 1; nextPublicNumber: number; tickets: Ticket[] };
+export type TicketDatabase = { version: 2; nextPublicNumber: number; tickets: Ticket[] };
 
 export const typeLabels: Record<TicketType, string> = { QUESTION: "Dúvida", INCIDENT: "Incidente", SERVICE_REQUEST: "Solicitação de serviço", ACCESS: "Acesso", IMPROVEMENT: "Melhoria" };
 export const impactLabels: Record<TicketImpact, string> = { LOW_IMPACT: "Impacto baixo", PARTIAL_IMPACT: "Impacto parcial", BLOCKING: "Impede o trabalho" };
 export const statusLabels: Record<TicketStatus, string> = { OPEN: "Novo", IN_PROGRESS: "Em atendimento", WAITING_CUSTOMER: "Aguardando cliente", UNDER_ANALYSIS: "Em análise", RESOLVED: "Resolvido", CLOSED: "Encerrado", REOPENED: "Reaberto" };
+export const priorityLabels: Record<TicketPriority, string> = { LOW: "Baixa", MEDIUM: "Média", HIGH: "Alta", CRITICAL: "Crítica" };
+export const categoryLabels: Record<TicketCategory, string> = { QUESTION: "Dúvida", INCIDENT: "Incidente", ACCESS: "Acesso", SERVICE_REQUEST: "Solicitação", IMPROVEMENT: "Melhoria" };

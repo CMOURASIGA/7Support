@@ -12,6 +12,10 @@ import { useAuth } from "@/features/auth/auth-context";
 import { useTickets } from "@/features/tickets/use-tickets";
 import { NewTicketLink, PageHeading, RecentTickets, TicketFeedback, TicketQuickView } from "@/components/tickets/ticket-ui";
 import type { Ticket } from "@/features/tickets/types";
+import { useInternalTickets } from "@/features/tickets/use-internal-tickets";
+import { InternalQuickView, InternalTicketActions } from "@/components/support/support-ui";
+import { ticketService } from "@/services/tickets/service";
+import { useToast } from "@/components/ui/toast";
 
 function ClientHome() {
   const { user, client, products } = useAuth();
@@ -32,7 +36,19 @@ function ClientHome() {
 }
 function InternalHome() {
   const { user } = useAuth();
-  return <AppShell><div className="mx-auto max-w-7xl space-y-5"><PageHeading eyebrow="Operação interna" title="Central de atendimento" description={`Sessão ${user?.role ?? "interna"} ativa. A fila e as ações internas entram na SPEC 04.`} /><Card><p className="text-sm text-[var(--text-secondary)]">O Ticket Core desta etapa disponibiliza os fluxos do cliente. Os registros internos ainda não possuem fila operacional.</p></Card></div></AppShell>;
+  const { tickets, loading, error, refresh } = useInternalTickets();
+  const { notify } = useToast(); const [quickId, setQuickId] = useState<string | null>(null);
+  const metrics = [
+    { label: "Novos", count: tickets.filter((item) => item.status === "OPEN").length },
+    { label: "Em atendimento", count: tickets.filter((item) => item.status === "IN_PROGRESS").length },
+    { label: "Aguardando cliente", count: tickets.filter((item) => item.status === "WAITING_CUSTOMER").length },
+    { label: "Em análise", count: tickets.filter((item) => item.status === "UNDER_ANALYSIS").length },
+    { label: "Resolvidos", count: tickets.filter((item) => item.status === "RESOLVED").length },
+    { label: "Sem responsável", count: tickets.filter((item) => !item.assignedToUserId).length },
+    { label: "Atribuídos a você", count: tickets.filter((item) => item.assignedToUserId === user?.id).length },
+  ];
+  async function assume(ticket: Ticket) { try { await ticketService.assume(ticket.id); notify(`${ticket.publicCode} assumido.`); await refresh(); } catch (cause) { notify(cause instanceof Error ? cause.message : "Falha ao assumir.", "error"); } }
+  return <AppShell><div className="mx-auto w-full max-w-7xl space-y-5"><PageHeading eyebrow="Operação interna" title="Central de atendimento" description={`Sessão ${user?.role ?? "interna"} · Indicadores da base local de chamados.`} action={<Link className="workspace-button-primary" href="/support/queue">Abrir fila <ArrowRight size={16} /></Link>} /><TicketFeedback loading={loading} error={error} retry={() => void refresh()} />{!loading && !error && <><div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{metrics.map((metric) => <Card key={metric.label}><p className="workspace-section-label">{metric.label}</p><p className="mt-3 text-3xl font-semibold">{metric.count}</p></Card>)}</div><Card><div className="flex items-center justify-between gap-2"><h3 className="text-base font-semibold">Chamados recentes</h3><Link className="text-sm font-semibold text-[var(--accent)]" href="/support/tickets">Ver todos</Link></div><div className="mt-4 space-y-3">{tickets.slice(0, 5).map((ticket) => <div key={ticket.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-[var(--border)] p-3"><div><p className="font-semibold">{ticket.publicCode} · {ticket.subject}</p><p className="text-xs text-[var(--text-secondary)]">{ticket.clientNameSnapshot} · {ticket.productNameSnapshot}</p></div><InternalTicketActions ticket={ticket} onQuickView={(item) => setQuickId(item.id)} onAssume={(item) => void assume(item)} /></div>)}</div></Card></>}<InternalQuickView ticket={tickets.find((item) => item.id === quickId) ?? null} onClose={() => setQuickId(null)} /></div></AppShell>;
 }
 export default function Home() { return <RequireAuth><HomeContent /></RequireAuth>; }
 function HomeContent() { const { user } = useAuth(); return user?.role === "CLIENT" ? <ClientHome /> : <InternalHome />; }
