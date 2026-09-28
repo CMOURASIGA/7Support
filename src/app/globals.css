@@ -47,6 +47,8 @@ button { cursor: pointer; }
 .workspace-button-primary, .workspace-button-secondary { display: inline-flex; align-items: center; justify-content: center; gap: .45rem; min-height: 40px; border-radius: .9rem; padding: .6rem 1rem; font-size: .8rem; font-weight: 600; transition: transform .15s ease, background-color .2s ease; }
 .workspace-button-primary { border: 1px solid var(--accent); background: var(--accent); color: white; }
 .workspace-button-secondary { border: 1px solid var(--border); background: white; color: var(--text-primary); }
+.workspace-button-icon { width: 40px; height: 40px; padding: 0; flex: none; color: var(--accent); }
+.workspace-button-icon svg { width: 20px; height: 20px; flex: none; }
 .workspace-button-primary:hover, .workspace-button-secondary:hover { transform: translateY(-1px); }
 .workspace-button-primary:disabled, .workspace-button-secondary:disabled { opacity: .55; cursor: not-allowed; transform: none; }
 
