@@ -7,7 +7,7 @@ test("carrega o shell da fundação", async ({ page }) => {
   await page.getByRole("button", { name: "Entrar" }).click();
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "Central de atendimento" })).toBeVisible();
-  await expect(page.getByText("Chamados recentes")).toBeVisible();
+  await expect(page.getByText(/A fila e as ações internas entram na SPEC 04/)).toBeVisible();
 });
 
 test("navegação móvel e resumo usam gavetas acessíveis", async ({ page }) => {
