@@ -21,7 +21,7 @@ export function Header({ onToggleMobileNav, mobileNavOpen }: { onToggleMobileNav
   return <header className="sticky top-0 z-20 flex min-h-16 items-center justify-between gap-4 border-b border-[var(--border)] bg-white/95 px-4 py-2 backdrop-blur md:px-6">
     <div className="flex min-w-0 items-center gap-3">
       <button type="button" className="mobile-nav-toggle" onClick={onToggleMobileNav} aria-label={mobileNavOpen ? "Fechar menu" : "Abrir menu"} aria-expanded={mobileNavOpen} aria-controls="app-sidebar"><Menu size={20} /></button>
-      <div className="min-w-0"><p className="truncate text-[10px] font-black uppercase tracking-[.2em] text-[var(--accent)]">{client ? client.displayName : "Workspace ativo"}</p><h1 className="truncate text-base font-semibold text-[var(--text-primary)]">Início</h1></div>
+      <div className="min-w-0"><p className="truncate text-[10px] font-black uppercase tracking-[.2em] text-[var(--accent)]">{client ? client.displayName : "Workspace ativo"}</p><h1 className="truncate text-base font-semibold text-[var(--text-primary)]">{pathname === "/tickets/new" ? "Novo chamado" : pathname.startsWith("/tickets/") ? "Detalhe do chamado" : pathname === "/tickets" ? "Meus chamados" : "Início"}</h1></div>
     </div>
     <div ref={menuRef} className="relative flex shrink-0 items-center gap-2 md:gap-3">
       <span className="hidden items-center gap-2 rounded-full border border-[#9fe1cb] bg-[var(--success-soft)] px-3 py-1.5 text-xs font-semibold text-[#0f6e56] sm:inline-flex"><span className="h-2 w-2 rounded-full bg-[var(--success)]" />Sessão local</span>
