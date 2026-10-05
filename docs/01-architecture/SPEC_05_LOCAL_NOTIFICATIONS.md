@@ -1,6 +1,7 @@
 # SPEC 05 - Notifications local-first
 
-**Status:** READY FOR HUMAN VALIDATION  
+**Status:** APPROVED  
+**Human Validation:** concluída em 05/10/2026  
 **Branch:** `feat/spec-05-notifications`  
 **Base:** `develop` em `103fe24f9d650ab7824219886924dcefb248d4f4`
 
