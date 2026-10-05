@@ -65,10 +65,10 @@ export class KnowledgeService {
       if (!source.currentPublishedVersionId || !products.has(source.productId)) return [];
       const version = database.versions.find((item) => item.id === source.currentPublishedVersionId);
       const product = products.get(source.productId)!;
-      if (!version || version.status !== "PUBLISHED") return [];
+      if (!version || version.sourceId !== source.id || version.status !== "PUBLISHED") return [];
       if (user.role === "CLIENT" && !["CLIENT", "BOTH"].includes(version.visibility)) return [];
       if (!matchesFilters(version, product, { ...filters, status: "PUBLISHED" })) return [];
-      return [{ sourceId: source.id, versionId: version.id, productId: source.productId, productName: product.displayName, title: version.title, category: version.category, content: version.content, visibility: version.visibility, version: version.version, publishedAt: version.publishedAt! }];
+      return [{ sourceId: source.id, versionId: version.id, productId: source.productId, productName: product.displayName, title: version.title, category: version.category, content: version.content, visibility: version.visibility, version: version.version, checksum: version.checksum, publishedAt: version.publishedAt! }];
     }).sort((a, b) => a.title.localeCompare(b.title, "pt-BR"));
   }
 
