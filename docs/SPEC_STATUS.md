@@ -4,7 +4,7 @@
 
 ## Status geral
 
-SPEC 01 APPROVED. SPEC 02 APPROVED (modo local). SPEC 02.1 APPROVED (fundação visual). SPEC 03 APPROVED. SPEC 04 APPROVED (modo local-first). SPEC 05 APPROVED (modo local-first). SPEC 06 READY FOR HUMAN VALIDATION (modo local-first).
+SPEC 01 APPROVED. SPEC 02 APPROVED (modo local). SPEC 02.1 APPROVED (fundação visual). SPEC 03 APPROVED. SPEC 04 APPROVED (modo local-first). SPEC 05 APPROVED (modo local-first). SPEC 06 APPROVED (modo local-first).
 
 ## Decisões aprovadas
 
@@ -110,6 +110,6 @@ Atena pode entrar após o ticket core estar validado.
 
 ## Gate atual
 
-SPEC 01, 02, 02.1, 03, 04 e 05 aprovadas. A SPEC 06 Knowledge Base está implementada na branch `feat/spec-06-knowledge-base` e aguarda Human Validation conforme `docs/01-architecture/SPEC_06_LOCAL_KNOWLEDGE_BASE.md`.
+SPEC 01, 02, 02.1, 03, 04, 05 e 06 aprovadas. A SPEC 07 Atena + AI Router Foundation está autorizada apenas para preparação documental e revisão de recorte.
 
-Não iniciar SPEC 07 nem antecipar Gmail real, Google Cloud, Supabase, RLS real, 7Service, Atena ou SLA.
+Não iniciar código da SPEC 07 nem antecipar Gmail real, Google Cloud, Supabase, RLS real, 7Service, SLA ou infraestrutura cloud.
