@@ -30,3 +30,8 @@ As transições seguem `TICKET_STATE_MACHINE.md`: OPEN → IN_PROGRESS; IN_PROGR
 ## Verificação automatizada
 
 `tests/unit/support-operations.cjs` cobre migração e preservação de IDs, autorização, auditoria, atribuição, transferência, prioridade, categoria, status, resolução, reabertura, visibilidade pública/interna, anexos e isolamento Alpha/Beta. `tests/e2e/support-operations.spec.ts` cobre o fluxo de interface e rotas por perfil; executar quando Chromium e servidor estiverem disponíveis no ambiente.
+
+
+## Deploy de homologação
+
+O Preview Vercel deve usar detecção de framework Next.js, sem `Output Directory` manual. O projeto Vercel não deve exigir a pasta `public` como artefato de build; o build é gerenciado pelo adapter Next.js da Vercel.
