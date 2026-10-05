@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronDown, LogOut, Menu } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/features/auth/auth-context";
+import { NotificationBell } from "@/components/notifications/notification-bell";
 
 export function Header({ onToggleMobileNav, mobileNavOpen }: { onToggleMobileNav: () => void; mobileNavOpen: boolean }) {
   const { user, client, logout } = useAuth();
@@ -21,10 +22,11 @@ export function Header({ onToggleMobileNav, mobileNavOpen }: { onToggleMobileNav
   return <header className="sticky top-0 z-20 flex min-h-16 items-center justify-between gap-4 border-b border-[var(--border)] bg-white/95 px-4 py-2 backdrop-blur md:px-6">
     <div className="flex min-w-0 items-center gap-3">
       <button type="button" className="mobile-nav-toggle" onClick={onToggleMobileNav} aria-label={mobileNavOpen ? "Fechar menu" : "Abrir menu"} aria-expanded={mobileNavOpen} aria-controls="app-sidebar"><Menu size={20} /></button>
-      <div className="min-w-0"><p className="truncate text-[10px] font-black uppercase tracking-[.2em] text-[var(--accent)]">{client ? client.displayName : "Workspace ativo"}</p><h1 className="truncate text-base font-semibold text-[var(--text-primary)]">{pathname === "/tickets/new" ? "Novo chamado" : pathname.startsWith("/tickets/") ? "Detalhe do chamado" : pathname === "/tickets" ? "Meus chamados" : pathname === "/support/queue" ? "Fila de atendimento" : pathname.startsWith("/support/tickets/") ? "Detalhe interno" : pathname === "/support/tickets" ? "Todos os chamados" : "Início"}</h1></div>
+      <div className="min-w-0"><p className="truncate text-[10px] font-black uppercase tracking-[.2em] text-[var(--accent)]">{client ? client.displayName : "Workspace ativo"}</p><h1 className="truncate text-base font-semibold text-[var(--text-primary)]">{pathname === "/notifications" ? "Notificações" : pathname === "/tickets/new" ? "Novo chamado" : pathname.startsWith("/tickets/") ? "Detalhe do chamado" : pathname === "/tickets" ? "Meus chamados" : pathname === "/support/queue" ? "Fila de atendimento" : pathname.startsWith("/support/tickets/") ? "Detalhe interno" : pathname === "/support/tickets" ? "Todos os chamados" : "Início"}</h1></div>
     </div>
     <div ref={menuRef} className="relative flex shrink-0 items-center gap-2 md:gap-3">
       <span className="hidden items-center gap-2 rounded-full border border-[#9fe1cb] bg-[var(--success-soft)] px-3 py-1.5 text-xs font-semibold text-[#0f6e56] sm:inline-flex"><span className="h-2 w-2 rounded-full bg-[var(--success)]" />Sessão local</span>
+      {user && <NotificationBell role={user.role} />}
       <button type="button" aria-label="Menu do usuário" aria-expanded={userMenuOpen} aria-haspopup="menu" onClick={() => setUserMenuOpen((value) => !value)} className="flex items-center gap-2 rounded-xl px-1.5 py-1 hover:bg-[var(--bg-muted)] sm:px-2">
         <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--brand-highlight)] text-xs font-bold text-[var(--sidebar-deep)]">{initials}</span>
         <span className="hidden min-w-0 text-left md:block"><span className="block max-w-40 truncate text-sm font-semibold text-[var(--text-primary)]">{user?.displayName}</span><span className="block text-[10px] uppercase tracking-wide text-[var(--text-tertiary)]">{user?.role}</span></span>

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Home, LifeBuoy, ListFilter, PlusCircle, X } from "lucide-react";
+import { Bell, Home, LifeBuoy, ListFilter, PlusCircle, X } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { useAuth } from "@/features/auth/auth-context";
 
@@ -14,6 +14,7 @@ export function Sidebar({ isMobileOpen, onCloseMobile }: { isMobileOpen: boolean
     { label: "Principal", items: [
       { label: "Início", href: "/", icon: Home },
       ...(user?.role === "CLIENT" ? [{ label: "Meus chamados", href: "/tickets", icon: LifeBuoy }, { label: "Novo chamado", href: "/tickets/new", icon: PlusCircle }] : [{ label: "Fila de atendimento", href: "/support/queue", icon: ListFilter }, { label: "Todos os chamados", href: "/support/tickets", icon: LifeBuoy }]),
+      { label: "Notificações", href: "/notifications", icon: Bell },
     ] },
   ];
   return <>

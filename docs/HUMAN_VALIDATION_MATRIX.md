@@ -65,11 +65,18 @@ Validar:
 ## SPEC 05
 
 Validar:
-- e-mail cliente;
-- cópia operacional;
-- retry;
+- confirmação de abertura para CLIENT;
+- atribuição e transferência para o responsável correto;
+- resposta pública nos dois sentidos;
+- ausência total de `INTERNAL_NOTE` e anexos internos;
+- resolução e reabertura;
 - idempotência;
-- falha de Gmail não desfaz ticket.
+- central, drawer, badge e leitura persistida;
+- navegação autorizada por perfil;
+- isolamento Alpha/Beta;
+- falha do provider local preserva notificação com delivery `FAILED`;
+- ausência de retry automático;
+- responsividade.
 
 ## SPEC 06
 
