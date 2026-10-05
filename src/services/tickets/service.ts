@@ -3,6 +3,8 @@ import { localTicketRepository } from "@/services/tickets/local-repository";
 import type { TicketRepository } from "@/services/tickets/repository";
 import { categories, impacts, priorities, ticketTypes, type AttachmentInput, type NewTicketInput, type ReplyInput, type Ticket, type TicketAttachment, type TicketCategory, type TicketPriority, type TicketStatus } from "@/features/tickets/types";
 import { demoOperators } from "@/services/tickets/operators";
+import { notificationService, ticketNotificationEvent } from "@/services/notifications/service";
+import type { NotificationType } from "@/features/notifications/types";
 
 export class TicketError extends Error {
   constructor(public readonly code: "UNAUTHENTICATED" | "FORBIDDEN" | "NOT_FOUND" | "VALIDATION" | "STORAGE", message: string) { super(message); }
@@ -49,6 +51,21 @@ const transitions: Record<TicketStatus, TicketStatus[]> = {
 };
 export function allowedTransitions(status: TicketStatus) { return transitions[status]; }
 
+async function dispatchTicketNotification(ticket: Ticket, eventId: string, type: NotificationType) {
+  await notificationService.process(ticketNotificationEvent({
+    id: eventId,
+    tenantId: ticket.clientId,
+    ticketId: ticket.id,
+    ticketCode: ticket.publicCode,
+    subject: ticket.subject,
+    productName: ticket.productNameSnapshot,
+    clientName: ticket.clientNameSnapshot,
+    priority: ticket.priority,
+    requesterUserId: ticket.requesterUserId,
+    assignedToUserId: ticket.assignedToUserId,
+  }, type));
+}
+
 export class TicketService {
   constructor(private readonly repository: TicketRepository) {}
   subscribe(listener: () => void) { return this.repository.subscribe(listener); }
@@ -63,18 +80,20 @@ export class TicketService {
     const product = localIdentityStore.productsFor(user).find((item) => item.id === input.productId);
     if (!client || !product) throw new TicketError("FORBIDDEN", "Produto não autorizado para este cliente.");
     if (!ticketTypes.includes(input.type) || !impacts.includes(input.impact) || !input.subject.trim() || input.subject.trim().length > 160 || !input.description.trim() || input.description.trim().length > 10000) throw new TicketError("VALIDATION", "Preencha tipo, impacto, assunto e descrição dentro dos limites indicados.");
-    return this.repository.transact((db) => {
+    const ticket = await this.repository.transact((db) => {
       const id = crypto.randomUUID(); const messageId = crypto.randomUUID(); const timestamp = new Date().toISOString();
       const publicNumber = db.nextPublicNumber++;
       const ticket: Ticket = { id, publicNumber, publicCode: `CS-${String(publicNumber).padStart(6, "0")}`, clientId: client.id, clientNameSnapshot: client.displayName, requesterUserId: user.id, requesterNameSnapshot: user.displayName, requesterEmailSnapshot: user.email, productId: product.id, productNameSnapshot: product.displayName, type: input.type, impact: input.impact, status: "OPEN", priority: "MEDIUM", category: input.type, assignedToUserId: null, subject: input.subject.trim(), createdAt: timestamp, updatedAt: timestamp, messages: [{ id: messageId, ticketId: id, authorUserId: user.id, authorName: user.displayName, authorType: "CLIENT", visibility: "PUBLIC_REPLY", body: input.description.trim(), createdAt: timestamp, attachments: attachmentsFor(input.attachments, id, messageId, user.id, timestamp) }], events: [{ id: crypto.randomUUID(), ticketId: id, actorUserId: user.id, eventType: "CREATED", newStatus: "OPEN", createdAt: timestamp, description: "Chamado aberto" }] };
       db.tickets.push(ticket);
       return ticket;
     });
+    await dispatchTicketNotification(ticket, ticket.events[0].id, "TICKET_CREATED");
+    return ticket;
   }
   async reply(id: string, input: ReplyInput) {
     const user = clientSession();
     if (!input.body.trim() || input.body.trim().length > 10000) throw new TicketError("VALIDATION", "Escreva uma resposta com até 10.000 caracteres.");
-    return this.repository.transact((db) => {
+    const ticket = await this.repository.transact((db) => {
       const ticket = db.tickets.find((item) => item.id === id);
       if (!ticket) throw new TicketError("NOT_FOUND", "Chamado não encontrado.");
       allowed(ticket);
@@ -86,6 +105,8 @@ export class TicketService {
       // A máquina documentada reserva WAITING_CUSTOMER -> IN_PROGRESS para suporte.
       return forClient(ticket);
     });
+    await dispatchTicketNotification(ticket, ticket.events.at(-1)!.id, "CLIENT_PUBLIC_REPLY");
+    return ticket;
   }
   private async internalUpdate(id: string, update: (ticket: Ticket, actor: ReturnType<typeof internalSession>) => void) {
     const actor = internalSession();
@@ -99,7 +120,7 @@ export class TicketService {
     });
   }
   async assign(id: string, operatorId: string) {
-    return this.internalUpdate(id, (ticket, actor) => {
+    const ticket = await this.internalUpdate(id, (ticket, actor) => {
       if (!demoOperators.some((operator) => operator.id === operatorId)) throw new TicketError("VALIDATION", "Operador inválido.");
       if (ticket.assignedToUserId === operatorId) throw new TicketError("VALIDATION", "O chamado já está atribuído a este operador.");
       const previous = ticket.assignedToUserId;
@@ -108,14 +129,19 @@ export class TicketService {
       const newName = demoOperators.find((operator) => operator.id === operatorId)!.displayName;
       ticket.events.push(this.audit(ticket, actor, previous ? "TRANSFERRED" : "ASSIGNED", `${previousName} → ${newName}`));
     });
+    const event = ticket.events.at(-1)!;
+    await dispatchTicketNotification(ticket, event.id, event.eventType === "TRANSFERRED" ? "TICKET_TRANSFERRED" : "TICKET_ASSIGNED");
+    return ticket;
   }
   async assume(id: string) {
     const actor = internalSession();
-    return this.internalUpdate(id, (ticket) => {
+    const ticket = await this.internalUpdate(id, (ticket) => {
       if (ticket.assignedToUserId) throw new TicketError("VALIDATION", "Este chamado já possui responsável.");
       ticket.assignedToUserId = actor.id;
       ticket.events.push(this.audit(ticket, actor, "ASSIGNED", `Sem responsável → ${actor.displayName}`));
     });
+    await dispatchTicketNotification(ticket, ticket.events.at(-1)!.id, "TICKET_ASSIGNED");
+    return ticket;
   }
   async changePriority(id: string, priority: TicketPriority) {
     return this.internalUpdate(id, (ticket, actor) => {
@@ -132,16 +158,18 @@ export class TicketService {
     });
   }
   async changeStatus(id: string, status: TicketStatus, reason = "") {
-    return this.internalUpdate(id, (ticket, actor) => {
+    const ticket = await this.internalUpdate(id, (ticket, actor) => {
       if (!allowedTransitions(ticket.status).includes(status)) throw new TicketError("VALIDATION", "Transição de status não permitida.");
       if (["RESOLVED", "REOPENED"].includes(status) && !reason.trim()) throw new TicketError("VALIDATION", "Informe o motivo da resolução ou reabertura.");
       if (reason.length > 2000) throw new TicketError("VALIDATION", "O motivo deve ter até 2.000 caracteres.");
       const previous = ticket.status; ticket.status = status;
       ticket.events.push({ ...this.audit(ticket, actor, "STATUS_CHANGED", reason.trim() || `${previous} → ${status}`, "PUBLIC"), oldStatus: previous, newStatus: status });
     });
+    if (status === "RESOLVED" || status === "REOPENED") await dispatchTicketNotification(ticket, ticket.events.at(-1)!.id, status === "RESOLVED" ? "TICKET_RESOLVED" : "TICKET_REOPENED");
+    return ticket;
   }
   async postInternal(id: string, mode: "PUBLIC_REPLY" | "INTERNAL_NOTE", input: ReplyInput) {
-    return this.internalUpdate(id, (ticket, actor) => {
+    const ticket = await this.internalUpdate(id, (ticket, actor) => {
       if (!(["PUBLIC_REPLY", "INTERNAL_NOTE"] as const).includes(mode)) throw new TicketError("VALIDATION", "Modo de mensagem inválido.");
       if (!input.body.trim() || input.body.trim().length > 10000) throw new TicketError("VALIDATION", "Escreva uma mensagem com até 10.000 caracteres.");
       if (mode === "PUBLIC_REPLY" && ["RESOLVED", "CLOSED"].includes(ticket.status)) throw new TicketError("VALIDATION", "O chamado não aceita resposta pública neste estado.");
@@ -149,6 +177,8 @@ export class TicketService {
       ticket.messages.push({ id: messageId, ticketId: ticket.id, authorUserId: actor.id, authorName: actor.displayName, authorType: "SUPPORT", visibility: mode, body: input.body.trim(), createdAt: timestamp, attachments: attachmentsFor(input.attachments, ticket.id, messageId, actor.id, timestamp) });
       ticket.events.push(this.audit(ticket, actor, mode === "PUBLIC_REPLY" ? "PUBLIC_REPLY_CREATED" : "INTERNAL_NOTE_CREATED", mode === "PUBLIC_REPLY" ? "Resposta pública enviada" : "Nota interna criada", mode === "PUBLIC_REPLY" ? "PUBLIC" : "INTERNAL"));
     });
+    if (mode === "PUBLIC_REPLY") await dispatchTicketNotification(ticket, ticket.events.at(-1)!.id, "SUPPORT_PUBLIC_REPLY");
+    return ticket;
   }
   private audit(ticket: Ticket, actor: ReturnType<typeof internalSession>, eventType: Ticket["events"][number]["eventType"], description: string, audience: "PUBLIC" | "INTERNAL" = "INTERNAL"): Ticket["events"][number] {
     return { id: crypto.randomUUID(), ticketId: ticket.id, actorUserId: actor.id, actorName: actor.displayName, correlationId: crypto.randomUUID(), eventType, createdAt: new Date().toISOString(), description, audience };

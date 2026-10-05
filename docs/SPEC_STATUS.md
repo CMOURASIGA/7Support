@@ -4,7 +4,7 @@
 
 ## Status geral
 
-SPEC 01 APPROVED. SPEC 02 APPROVED (modo local). SPEC 02.1 APPROVED (fundação visual). SPEC 03 APPROVED. SPEC 04 APPROVED (modo local-first).
+SPEC 01 APPROVED. SPEC 02 APPROVED (modo local). SPEC 02.1 APPROVED (fundação visual). SPEC 03 APPROVED. SPEC 04 APPROVED (modo local-first). SPEC 05 APPROVED (modo local-first).
 
 ## Decisões aprovadas
 
@@ -110,6 +110,6 @@ Atena pode entrar após o ticket core estar validado.
 
 ## Gate atual
 
-SPEC 01, 02, 02.1, 03 e 04 aprovadas. A SPEC 04 está autorizada para integração ao `develop` pelo PR #4. Após a confirmação do merge remoto, fica autorizada somente a preparação documental da SPEC 05 - Notifications; sua implementação permanece não iniciada.
+SPEC 01, 02, 02.1, 03, 04 e 05 aprovadas. A SPEC 05 está autorizada para integração ao `develop` pelo PR #5. Após a confirmação do merge remoto, fica autorizada somente a preparação documental da SPEC 06 - Knowledge Base; sua implementação permanece não iniciada.
 
-Não antecipar cloud, Supabase, 7Service, SLA, Atena ou Knowledge Base.
+Não antecipar Gmail real, Google Cloud, Supabase, RLS real, 7Service, Atena ou SLA.
