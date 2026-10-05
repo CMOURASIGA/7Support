@@ -1,6 +1,7 @@
 # SPEC 06 - Knowledge Base - Preparation
 
-**Status:** PREPARED / NOT STARTED  
+**Status:** APPROVED FOR DEVELOPMENT
+**Aprovação do recorte:** 05/10/2026
 **Base autorizada:** `develop` após o merge da SPEC 05 pelo PR #5  
 **Modo proposto:** local-first  
 **Data de preparação:** 05/10/2026

@@ -81,13 +81,23 @@ Validar:
 ## SPEC 06
 
 Validar:
-- CRUD ADMIN;
-- DRAFT;
-- IN_REVIEW;
-- PUBLISHED;
-- ARCHIVED;
-- versionamento;
-- Atena não usa conteúdo não publicado.
+- CRUD e catálogo controlado para ADMIN;
+- workflow obrigatório DRAFT -> IN_REVIEW -> PUBLISHED;
+- devolução IN_REVIEW -> DRAFT;
+- bloqueio de edição em IN_REVIEW, PUBLISHED e ARCHIVED;
+- nova versão para conteúdo PUBLISHED ou ARCHIVED;
+- histórico e auditoria;
+- checksum e bloqueio de duplicidade material;
+- labels de categoria, visibilidade, status e versão;
+- busca determinística com normalização;
+- CLIENT somente PUBLISHED CLIENT/BOTH e produto autorizado;
+- SUPPORT somente PUBLISHED com todas as visibilidades;
+- busca CLIENT sem inferência de conteúdo oculto;
+- persistência local;
+- forbidden nas rotas ADMIN;
+- isolamento funcional Alpha/Beta;
+- responsividade;
+- ausência de Atena, embeddings, chunks e busca semântica.
 
 ## SPEC 07
 
