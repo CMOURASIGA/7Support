@@ -1,10 +1,10 @@
 # 7Support - Specification Status
 
-**Data de referência:** 28/09/2026
+**Data de referência:** 05/10/2026
 
 ## Status geral
 
-SPEC 01 APPROVED. SPEC 02 APPROVED (modo local). SPEC 02.1 APPROVED (fundação visual). SPEC 03 - APPROVED.
+SPEC 01 APPROVED. SPEC 02 APPROVED (modo local). SPEC 02.1 APPROVED (fundação visual). SPEC 03 APPROVED. SPEC 04 APPROVED (modo local-first).
 
 ## Decisões aprovadas
 
@@ -101,8 +101,15 @@ A primeira versão utilizável deve permitir:
 
 Atena pode entrar após o ticket core estar validado.
 
+## Observações não bloqueantes da Human Validation da SPEC 04
+
+- melhorar futuramente a densidade de algumas colunas da fila;
+- avaliar compactação de eventos da timeline em históricos longos;
+- melhorar a quebra visual de e-mail no drawer;
+- concluir a regressão de responsividade.
+
 ## Gate atual
 
-SPEC 01, 02, 02.1 e 03 aprovadas. SPEC 03 integrada ao `develop` pelo PR #3. A preparação da SPEC 04 Support Operations está autorizada; a homologação visual completa ocorrerá após as rotinas das SPECs 03 e 04. Não antecipar cloud, Supabase ou 7Service.
+SPEC 01, 02, 02.1, 03 e 04 aprovadas. A SPEC 04 está autorizada para integração ao `develop` pelo PR #4. Após a confirmação do merge remoto, fica autorizada somente a preparação documental da SPEC 05 - Notifications; sua implementação permanece não iniciada.
 
-A integração com 7Service não deve ser antecipada.
+Não antecipar cloud, Supabase, 7Service, SLA, Atena ou Knowledge Base.

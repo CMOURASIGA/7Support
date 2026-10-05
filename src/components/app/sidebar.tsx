@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Home, LifeBuoy, PlusCircle, X } from "lucide-react";
+import { Home, LifeBuoy, ListFilter, PlusCircle, X } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { useAuth } from "@/features/auth/auth-context";
 
@@ -13,7 +13,7 @@ export function Sidebar({ isMobileOpen, onCloseMobile }: { isMobileOpen: boolean
   const sections = [
     { label: "Principal", items: [
       { label: "Início", href: "/", icon: Home },
-      ...(user?.role === "CLIENT" ? [{ label: "Meus chamados", href: "/tickets", icon: LifeBuoy }, { label: "Novo chamado", href: "/tickets/new", icon: PlusCircle }] : []),
+      ...(user?.role === "CLIENT" ? [{ label: "Meus chamados", href: "/tickets", icon: LifeBuoy }, { label: "Novo chamado", href: "/tickets/new", icon: PlusCircle }] : [{ label: "Fila de atendimento", href: "/support/queue", icon: ListFilter }, { label: "Todos os chamados", href: "/support/tickets", icon: LifeBuoy }]),
     ] },
   ];
   return <>
@@ -33,7 +33,7 @@ export function Sidebar({ isMobileOpen, onCloseMobile }: { isMobileOpen: boolean
         {sections.map((section) => <div key={section.label}>
           <p className="sidebar-rail-only mb-2 px-2 text-[10px] font-extrabold uppercase tracking-[.12em] text-[#a9dffc]">{section.label}</p>
           <div className="flex flex-col gap-1">{section.items.map(({ label, href, icon: Icon }) => {
-            const active = href === "/" ? pathname === "/" : href === "/tickets" ? pathname === "/tickets" || (pathname.startsWith("/tickets/") && pathname !== "/tickets/new") : pathname === href;
+            const active = href === "/" ? pathname === "/" : href === "/tickets" ? pathname === "/tickets" || (pathname.startsWith("/tickets/") && pathname !== "/tickets/new") : href === "/support/tickets" ? pathname === href || pathname.startsWith("/support/tickets/") : pathname === href;
             return <Link key={href} href={href} title={label} aria-label={label} aria-current={active ? "page" : undefined} onClick={onCloseMobile} className={cn("sidebar-nav-link flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors md:justify-center lg:justify-start", active && "sidebar-nav-link-active shadow-sm")}><Icon size={18} aria-hidden="true" /><span className="sidebar-rail-only">{label}</span></Link>;
           })}</div>
         </div>)}

@@ -5,14 +5,28 @@ import type { TicketDatabase } from "@/features/tickets/types";
 const STORAGE_KEY = "7support.spec03.tickets.v1";
 const CHANGE_EVENT = "7support-tickets-changed";
 
-function assertDatabase(value: unknown): asserts value is TicketDatabase {
-  if (!value || typeof value !== "object" || !Array.isArray((value as TicketDatabase).tickets) || (value as TicketDatabase).version !== 1 || !Number.isSafeInteger((value as TicketDatabase).nextPublicNumber)) throw new Error("A base local de chamados está inválida. Os dados foram preservados para análise.");
+function assertDatabase(value: unknown): asserts value is TicketDatabase | (Omit<TicketDatabase, "version"> & { version: 1 }) {
+  if (!value || typeof value !== "object" || !Array.isArray((value as TicketDatabase).tickets) || ![1, 2].includes((value as TicketDatabase).version) || !Number.isSafeInteger((value as TicketDatabase).nextPublicNumber)) throw new Error("A base local de chamados está inválida. Os dados foram preservados para análise.");
 }
 
 function load(): TicketDatabase {
   if (typeof window === "undefined") throw new Error("O repositório local exige um navegador.");
   const stored = window.localStorage.getItem(STORAGE_KEY);
-  if (stored) { const parsed: unknown = JSON.parse(stored); assertDatabase(parsed); return parsed; }
+  if (stored) {
+    const parsed: unknown = JSON.parse(stored); assertDatabase(parsed);
+    if (parsed.version === 1) {
+      // Migração incremental: conserva UUID, CS, anexos, mensagens e sequência da SPEC 03.
+      for (const ticket of parsed.tickets) {
+        ticket.priority ??= "MEDIUM";
+        ticket.category ??= ticket.type;
+        ticket.assignedToUserId ??= ticket.status === "OPEN" ? null : "user-support";
+      }
+      const migrated: TicketDatabase = { ...parsed, version: 2 };
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
+      return migrated;
+    }
+    return parsed;
+  }
   const initial = createDemoDatabase();
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(initial));
   return initial;
