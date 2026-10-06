@@ -2,7 +2,7 @@ import type { AIPolicy, AtenaConversation, AtenaDatabase, AtenaMessage, AtenaSco
 import { AtenaError } from "@/services/atena/errors";
 import { assertScope, currentScope, KnowledgeServiceQueryAdapter, type KnowledgeQueryPort } from "@/services/atena/knowledge-query";
 import { LocalAtenaConversationRepository } from "@/services/atena/local-repository";
-import { LocalFallbackProvider, LocalPrimaryProvider } from "@/services/atena/local-providers";
+import { localFallbackProvider, localPrimaryProvider } from "@/services/atena/local-demo";
 import { PromptContextBuilder } from "@/services/atena/prompt-context";
 import type { AtenaConversationRepository } from "@/services/atena/repository";
 import { AIRouter } from "@/services/atena/router";
@@ -196,4 +196,4 @@ export class AtenaService {
     });
   }
 }
-export const atenaService = new AtenaService(new LocalAtenaConversationRepository(), new KnowledgeServiceQueryAdapter(knowledgeService), new PromptContextBuilder(), new AIRouter(new LocalPrimaryProvider(), new LocalFallbackProvider()));
+export const atenaService = new AtenaService(new LocalAtenaConversationRepository(), new KnowledgeServiceQueryAdapter(knowledgeService), new PromptContextBuilder(), new AIRouter(localPrimaryProvider, localFallbackProvider));

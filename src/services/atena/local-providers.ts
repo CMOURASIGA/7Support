@@ -3,7 +3,8 @@ import { renderGroundedAnswer, type PromptContext } from "@/services/atena/promp
 export type LocalProviderScenario = "SUCCESS" | "UNAVAILABLE" | "TIMEOUT" | "RATE_LIMIT" | "EMPTY_RESPONSE" | "INVALID_RESPONSE" | "TECHNICAL_ERROR";
 export type LocalProviderOptions = { scenario?: LocalProviderScenario; latencyMs?: number };
 class LocalProvider implements AIProvider {
-  constructor(private readonly options: LocalProviderOptions = {}) {}
+  constructor(private options: LocalProviderOptions = {}) {}
+  configure(options: LocalProviderOptions) { this.options = { ...options }; }
   async generate(context: PromptContext, signal: AbortSignal) {
     const latency = Math.min(5000, Math.max(0, this.options.latencyMs ?? 0));
     if (signal.aborted) throw new ProviderFailure("TIMEOUT");

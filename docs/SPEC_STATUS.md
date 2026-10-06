@@ -4,7 +4,7 @@
 
 ## Status geral
 
-SPEC 01 APPROVED. SPEC 02 APPROVED (modo local). SPEC 02.1 APPROVED (fundação visual). SPEC 03 APPROVED. SPEC 04 APPROVED (modo local-first). SPEC 05 APPROVED (modo local-first). SPEC 06 APPROVED (modo local-first). SPEC 07 CORE IMPLEMENTED / READY FOR REVIEW (núcleo local; UI e aprovação final pendentes).
+SPEC 01 APPROVED. SPEC 02 APPROVED (modo local). SPEC 02.1 APPROVED (fundação visual). SPEC 03 APPROVED. SPEC 04 APPROVED (modo local-first). SPEC 05 APPROVED (modo local-first). SPEC 06 APPROVED (modo local-first). SPEC 07 READY FOR HUMAN VALIDATION (modo local-first).
 
 ## Decisões aprovadas
 
@@ -110,6 +110,6 @@ Atena pode entrar após o ticket core estar validado.
 
 ## Gate atual
 
-SPEC 01, 02, 02.1, 03, 04, 05 e 06 aprovadas. A preparação da SPEC 07 foi aprovada e o núcleo local foi implementado com ASTRA. O checkpoint está em `docs/01-architecture/SPEC_07_LOCAL_ATENA_CORE.md`, aguardando revisão; a SPEC completa ainda não está aprovada.
+SPEC 01, 02, 02.1, 03, 04, 05 e 06 aprovadas. O núcleo da SPEC 07 foi aprovado em `3f09971b0b027f73a1ffd8b8eab9dffc026e8d8e`. A UI local aguarda Human Validation conforme `docs/01-architecture/SPEC_07_LOCAL_ATENA_HUMAN_VALIDATION.md`. A SPEC completa ainda não está aprovada.
 
-Não iniciar a camada visual completa nem a SPEC 08 sem autorização. Não antecipar OpenRouter/OpenAI reais, credenciais, embeddings, vector store, escalonamento para ticket, Gmail real, Google Cloud, Supabase, RLS real, 7Service, SLA ou infraestrutura cloud.
+Não realizar merge nem iniciar SPEC 08 sem aprovação. Não antecipar OpenRouter/OpenAI reais, credenciais, embeddings, vector store, escalonamento para ticket, Gmail real, Google Cloud, Supabase, RLS real, 7Service, SLA ou infraestrutura cloud.

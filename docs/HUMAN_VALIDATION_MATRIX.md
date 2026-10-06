@@ -102,14 +102,16 @@ Validar:
 ## SPEC 07
 
 Validar:
-- OpenRouter homologado;
-- OpenAI fallback;
-- AUTO;
-- telemetria;
-- grounding;
-- tenant boundary;
-- prompt injection;
-- falha dos providers não quebra tickets.
+- conversa privada por identidade e produto imutável;
+- CLIENT Alpha/Beta isolados e SUPPORT com conteúdo INTERNAL publicado;
+- citações reautorizadas ao abrir;
+- refresh, retry manual idempotente e arquivamento;
+- controles locais ADMIN: sucesso, fallback, falha total, rate limit, vazio, inválido e latência;
+- diagnóstico sanitizado apenas para ADMIN;
+- resposta neutra sem base autorizada e sem conteúdo oculto;
+- grounding e prompt injection cobertos no núcleo;
+- responsividade, loading, empty, error e ausência de ticket/notificação;
+- roteiro em `docs/01-architecture/SPEC_07_LOCAL_ATENA_HUMAN_VALIDATION.md`.
 
 ## SPEC 08
 

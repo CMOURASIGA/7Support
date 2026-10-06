@@ -44,6 +44,7 @@ const { AIRouter } = require('../../src/services/atena/router.ts');
 const { LocalPrimaryProvider, LocalFallbackProvider } = require('../../src/services/atena/local-providers.ts');
 const { AtenaError } = require('../../src/services/atena/errors.ts');
 const { ProviderFailure } = require('../../src/services/atena/provider.ts');
+const { localAtenaDemoService, localPrimaryProvider, localFallbackProvider } = require('../../src/services/atena/local-demo.ts');
 const kb = new KnowledgeServiceQueryAdapter(knowledgeService);
 const productId = 'product-commander';
 function login(role = 'alpha') {
@@ -251,4 +252,16 @@ test('41 retirada de conhecimento impede fallback técnico e preserva mensagem',
 });
 test('42 trecho mantém offsets do original com muito whitespace e termo tardio', async () => {
   login('admin'); await publish({ title: 'Documento extenso', content: `${'texto     '.repeat(500)}marcadorunico orientacao final` }); login(); const evidence = await kb.searchAuthorized(currentScope(productId), 'marcadorunico'); assert.equal(evidence.length, 1); assert.match(evidence[0].excerpt, /marcadorunico/); assert.ok(evidence[0].excerpt.length <= 1200); await kb.getCitationTargetAuthorized(currentScope(productId), evidence[0]);
+});
+test('43 somente ADMIN configura simulações locais; reset não mantém falha para CLIENT', async () => {
+  login(); assert.throws(() => localAtenaDemoService.configure('TOTAL_FAILURE'), { code: 'FORBIDDEN' });
+  assert.throws(() => localAtenaDemoService.current(), { code: 'FORBIDDEN' });
+  login('admin'); localAtenaDemoService.configure('FALLBACK_SUCCESS'); assert.equal(localAtenaDemoService.current(), 'FALLBACK_SUCCESS');
+  const f = await begin(fixture(localPrimaryProvider, localFallbackProvider));
+  await f.service.sendMessage(f.conversation.id, input('demo-1'));
+  assert.equal((await stored(f)).executions[0].status, 'FALLBACK_SUCCEEDED');
+  localAtenaDemoService.reset();
+  login(); const client = await begin(fixture(localPrimaryProvider, localFallbackProvider));
+  await client.service.sendMessage(client.conversation.id, input('demo-2'));
+  assert.equal((await stored(client)).executions.at(-1).status, 'SUCCEEDED');
 });
