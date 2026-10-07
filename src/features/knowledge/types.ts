@@ -80,6 +80,7 @@ export type AuthorizedKnowledge = {
   content: string;
   visibility: KnowledgeVisibility;
   version: number;
+  checksum: string;
   publishedAt: string;
 };
 

@@ -1,9 +1,11 @@
 # SPEC 07 - Atena + AI Router Foundation - Preparation
 
-**Status:** PREPARED / NOT STARTED  
+**Status histórico:** preparação aprovada; núcleo implementado e aguardando revisão
 **Base autorizada:** `develop` após o merge da SPEC 06 pelo PR #6  
 **Modo proposto:** local-first, com providers simulados  
 **Data de preparação:** 05/10/2026
+
+> As decisões pendentes desta preparação foram resolvidas pela autorização de implementação do núcleo. Estado e contratos atuais: [SPEC_07_LOCAL_ATENA_CORE.md](SPEC_07_LOCAL_ATENA_CORE.md). O restante deste documento preserva a proposta original.
 
 ## Objetivo
 
