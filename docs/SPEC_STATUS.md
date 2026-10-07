@@ -4,7 +4,7 @@
 
 ## Status geral
 
-SPEC 01 APPROVED. SPEC 02 APPROVED (modo local). SPEC 02.1 APPROVED (fundação visual). SPEC 03 APPROVED. SPEC 04 APPROVED (modo local-first). SPEC 05 APPROVED (modo local-first). SPEC 06 APPROVED (modo local-first). SPEC 07 APPROVED (modo local-first). SPEC 08 PREPARATION PENDING REVIEW.
+SPEC 01 APPROVED. SPEC 02 APPROVED (modo local). SPEC 02.1 APPROVED (fundação visual). SPEC 03 APPROVED. SPEC 04 APPROVED (modo local-first). SPEC 05 APPROVED (modo local-first). SPEC 06 APPROVED (modo local-first). SPEC 07 APPROVED (modo local-first). SPEC 08 PREPARED FOR REVIEW (sem código).
 
 ## Decisões aprovadas
 
@@ -112,4 +112,4 @@ Atena pode entrar após o ticket core estar validado.
 
 SPEC 01, 02, 02.1, 03, 04, 05, 06 e 07 aprovadas. A Human Validation da SPEC 07 homologou a experiência CLIENT e SUPPORT, as citações e a proteção dos diagnósticos. O isolamento Alpha/Beta, os cenários de provider, a idempotência, o grounding e a segurança funcional foram confirmados pela suíte automatizada. A validação manual específica do CLIENT Beta foi dispensada com base nessa cobertura.
 
-O PR #7 está autorizado para integração em `develop`. Preparar documentalmente a SPEC 08, sem iniciar código antes da revisão e aprovação do recorte. OpenRouter/OpenAI reais, Supabase, RLS real, 7Service, Gmail e SLA permanecem fora do escopo atual.
+O PR #7 está autorizado para integração em `develop`. A preparação documental da SPEC 08 está em `docs/01-architecture/SPEC_08_ATENA_ESCALATION_PREPARATION.md`. Revisar e aprovar o recorte antes de iniciar código. OpenRouter/OpenAI reais, Supabase, RLS real, 7Service, Gmail e SLA permanecem fora do escopo atual.
