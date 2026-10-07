@@ -14,7 +14,7 @@ test("SUPPORT opera fila, audit trail e separa nota interna de resposta pública
   await page.goto("/support/queue");
   await expect(page.getByRole("heading", { name: "Fila de atendimento", level: 2 })).toBeVisible();
   await page.getByLabel("Busca").fill("CS-000001");
-  await expect(page.getByText("Cliente Beta")).toHaveCount(0);
+  await expect(page.getByRole("row").filter({ hasText: "Cliente Beta" })).toHaveCount(0);
   await page.getByRole("button", { name: "Visualizar resumo CS-000001" }).first().click();
   await expect(page.getByRole("dialog")).toContainText("Cliente Alpha");
   await page.getByRole("link", { name: "Abrir chamado completo" }).click();

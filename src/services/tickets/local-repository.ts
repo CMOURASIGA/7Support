@@ -35,10 +35,10 @@ function load(): TicketDatabase {
 export class LocalTicketRepository implements TicketRepository {
   private queue: Promise<unknown> = Promise.resolve();
   async read() { return structuredClone(load()); }
-  async transact<T>(update: (database: TicketDatabase) => T): Promise<T> {
+  async transact<T>(update: (database: TicketDatabase) => T | Promise<T>): Promise<T> {
     const work = async () => {
       const current = structuredClone(load());
-      const result = update(current);
+      const result = await update(current);
       try { window.localStorage.setItem(STORAGE_KEY, JSON.stringify(current)); }
       catch { throw new Error("Não foi possível salvar localmente. Verifique o espaço disponível e tente novamente."); }
       window.dispatchEvent(new Event(CHANGE_EVENT));

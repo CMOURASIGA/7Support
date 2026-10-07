@@ -8,5 +8,5 @@ const messages: Record<AtenaErrorCode, string> = {
   STORAGE_UNAVAILABLE: "Não foi possível acessar a persistência local com segurança.",
 };
 export class AtenaError extends Error {
-  constructor(public readonly code: AtenaErrorCode) { super(messages[code]); }
+  constructor(public readonly code: AtenaErrorCode, message?: string) { super(message ?? messages[code]); }
 }

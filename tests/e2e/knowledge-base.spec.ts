@@ -54,7 +54,7 @@ test("ADMIN executa criação, revisão obrigatória, publicação, versão e ar
   await page.getByRole("button", { name: "Nova versão" }).click();
   await page.getByLabel("Conteúdo").fill("Conteúdo fictício revisado com uma alteração material para a versão 2.");
   await page.getByRole("button", { name: "Criar nova versão em rascunho" }).click();
-  await expect(page.getByText("Versão 2")).toBeVisible();
+  await expect(page.getByText("Versão 2", { exact: true })).toBeVisible();
   await expect(page.getByText("Rascunho").first()).toBeVisible();
   await page.getByRole("button", { name: "Enviar para revisão" }).click();
   page.once("dialog", (dialog) => dialog.accept());
