@@ -65,7 +65,7 @@ test("falha do provider local mantém a notificação e o isolamento Beta", asyn
   await page.goto("/notifications");
   await page.getByRole("button", { name: /aberto com sucesso/ }).click();
   await expect(page.getByRole("dialog")).toContainText("Falha local");
-  await page.getByRole("button", { name: "Fechar painel" }).click();
+  await page.getByRole("dialog").getByRole("button", { name: "Fechar painel" }).click();
   await logout(page);
   await login(page, "cliente.beta@demo.7support.local", "demo-beta");
   await page.goto("/notifications");

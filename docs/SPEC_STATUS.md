@@ -1,10 +1,10 @@
 # 7Support - Specification Status
 
-**Data de referência:** 07/10/2026
+**Data de referência:** 08/10/2026
 
 ## Status geral
 
-SPEC 01 APPROVED. SPEC 02 APPROVED (modo local). SPEC 02.1 APPROVED (fundação visual). SPEC 03 APPROVED. SPEC 04 APPROVED (modo local-first). SPEC 05 APPROVED (modo local-first). SPEC 06 APPROVED (modo local-first). SPEC 07 APPROVED (modo local-first). SPEC 08 PREPARED FOR REVIEW (sem código).
+SPEC 01 APPROVED. SPEC 02 APPROVED (modo local). SPEC 02.1 APPROVED (fundação visual). SPEC 03 APPROVED. SPEC 04 APPROVED (modo local-first). SPEC 05 APPROVED (modo local-first). SPEC 06 APPROVED (modo local-first). SPEC 07 APPROVED (modo local-first). SPEC 08 APPROVED (modo local-first). SPEC 09 NOT STARTED (preparação documental autorizada; código bloqueado até revisão do recorte).
 
 ## Decisões aprovadas
 
@@ -112,4 +112,8 @@ Atena pode entrar após o ticket core estar validado.
 
 SPEC 01, 02, 02.1, 03, 04, 05, 06 e 07 aprovadas. A Human Validation da SPEC 07 homologou a experiência CLIENT e SUPPORT, as citações e a proteção dos diagnósticos. O isolamento Alpha/Beta, os cenários de provider, a idempotência, o grounding e a segurança funcional foram confirmados pela suíte automatizada. A validação manual específica do CLIENT Beta foi dispensada com base nessa cobertura.
 
-O PR #7 está autorizado para integração em `develop`. A preparação documental da SPEC 08 está em `docs/01-architecture/SPEC_08_ATENA_ESCALATION_PREPARATION.md`. Revisar e aprovar o recorte antes de iniciar código. OpenRouter/OpenAI reais, Supabase, RLS real, 7Service, Gmail e SLA permanecem fora do escopo atual.
+O PR #7 foi integrado em `develop`, merge `f2c57f8f9bcc3dedadc802bcb1959c00028ff9f7`. SPEC 08 APPROVED em 08/10/2026. A Human Validation homologou abertura explícita, drawer de revisão, produto read-only, defaults, assunto/descrição derivados, escalada manual de resposta neutra, criação de CS-000008, notificação, vínculo persistido, bloqueio de segunda escalada e navegação CLIENT, mantendo os dados e o status inicial no Ticket Core.
+
+A suíte automatizada mantém homologados idempotência por origem, concorrência entre abas, retry, recuperação entre ticket e vínculo, notificação única, isolamento Alpha/Beta, bloqueio SUPPORT/ADMIN, revalidação de sessão, exclusão de conteúdo revogado, limite de seis mensagens/8.000 caracteres e ausência de INTERNAL, diagnóstico e criação automática.
+
+O PR #8 está autorizado para integração em `develop` por merge normal, preservando o commit de acesso rápido de validação `f6c252b3a4af722ad06ff8360f0b284cecc6e812`. A SPEC 09 tem somente preparação documental autorizada. Seu código depende da revisão e aprovação explícita do recorte. OpenRouter/OpenAI reais, Supabase, RLS real, Gmail, Google Cloud, 7Service e infraestrutura cloud permanecem fora do escopo.

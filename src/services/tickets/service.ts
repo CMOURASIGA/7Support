@@ -1,7 +1,7 @@
 import { localIdentityStore } from "@/services/local-identity/store";
 import { localTicketRepository } from "@/services/tickets/local-repository";
 import type { TicketRepository } from "@/services/tickets/repository";
-import { categories, impacts, priorities, ticketTypes, type AttachmentInput, type NewTicketInput, type ReplyInput, type Ticket, type TicketAttachment, type TicketCategory, type TicketPriority, type TicketStatus } from "@/features/tickets/types";
+import { categories, impacts, priorities, ticketTypes, type AtenaTicketOrigin, type AttachmentInput, type NewTicketInput, type ReplyInput, type Ticket, type TicketAttachment, type TicketCategory, type TicketPriority, type TicketStatus } from "@/features/tickets/types";
 import { demoOperators } from "@/services/tickets/operators";
 import { notificationService, ticketNotificationEvent } from "@/services/notifications/service";
 import type { NotificationType } from "@/features/notifications/types";
@@ -74,21 +74,50 @@ export class TicketService {
   async listInternal() { internalSession(); return sortTickets((await this.repository.read()).tickets); }
   async getInternal(id: string) { internalSession(); const ticket = (await this.repository.read()).tickets.find((item) => item.id === id); if (!ticket) throw new TicketError("NOT_FOUND", "Chamado não encontrado."); return ticket; }
   operators() { internalSession(); return demoOperators; }
-  async create(input: NewTicketInput) {
+  async createFromAtena(input: NewTicketInput, reference: { conversationId: string; escalationId: string }, revalidate: () => Promise<{ id: string; productId: string; userId: string; tenantId: string }>) {
+    const user = clientSession();
+    if (!reference.conversationId || !reference.escalationId || input.attachments.length) throw new TicketError("VALIDATION", "Origem inválida.");
+    if (typeof navigator === "undefined" || !navigator.locks?.request) throw new TicketError("STORAGE", "O navegador não permite uma criação segura. Use um navegador atualizado.");
+    const source = await revalidate();
+    if (source.id !== reference.conversationId || source.productId !== input.productId || source.userId !== user.id || source.tenantId !== user.clientId) throw new TicketError("FORBIDDEN", "Origem não autorizada.");
+    if (clientSession().id !== user.id || clientSession().clientId !== user.clientId) throw new TicketError("FORBIDDEN", "A sessão mudou.");
+    const origin: AtenaTicketOrigin = { type: "ATENA", conversationId: reference.conversationId, escalationId: reference.escalationId, idempotencyKey: `ATENA:${reference.conversationId}:${user.id}` };
+    return this.createTicket(input, origin, async () => {
+      const current = await revalidate();
+      if (current.id !== reference.conversationId || current.productId !== input.productId || current.userId !== user.id || current.tenantId !== user.clientId) throw new TicketError("FORBIDDEN", "Origem não autorizada.");
+    });
+  }
+  async findFromAtena(conversationId: string) {
+    const user = clientSession();
+    const key = `ATENA:${conversationId}:${user.id}`;
+    const database = await this.repository.read();
+    if (clientSession().id !== user.id || clientSession().clientId !== user.clientId) throw new TicketError("FORBIDDEN", "A sessão mudou.");
+    const ticket = database.tickets.find(item => item.origin?.idempotencyKey === key && item.clientId === user.clientId && item.requesterUserId === user.id);
+    return ticket ? forClient(ticket) : null;
+  }
+  async create(input: NewTicketInput) { return this.createTicket(input); }
+  private async createTicket(input: NewTicketInput, origin?: AtenaTicketOrigin, beforeCommit?: () => Promise<void>) {
     const user = clientSession();
     const client = localIdentityStore.clientFor(user);
     const product = localIdentityStore.productsFor(user).find((item) => item.id === input.productId);
     if (!client || !product) throw new TicketError("FORBIDDEN", "Produto não autorizado para este cliente.");
     if (!ticketTypes.includes(input.type) || !impacts.includes(input.impact) || !input.subject.trim() || input.subject.trim().length > 160 || !input.description.trim() || input.description.trim().length > 10000) throw new TicketError("VALIDATION", "Preencha tipo, impacto, assunto e descrição dentro dos limites indicados.");
-    const ticket = await this.repository.transact((db) => {
+    const result = await this.repository.transact(async (db) => {
+      if (beforeCommit) await beforeCommit();
+      if (clientSession().id !== user.id || clientSession().clientId !== user.clientId || !localIdentityStore.productsFor(clientSession()).some(item => item.id === input.productId)) throw new TicketError("FORBIDDEN", "A sessão ou autorização mudou.");
+      const existing = origin && db.tickets.find(item => item.origin?.idempotencyKey === origin.idempotencyKey);
+      if (existing) {
+        if (existing.clientId !== client.id || existing.requesterUserId !== user.id || existing.productId !== input.productId) throw new TicketError("FORBIDDEN", "Origem não autorizada.");
+        return { ticket: existing, created: false };
+      }
       const id = crypto.randomUUID(); const messageId = crypto.randomUUID(); const timestamp = new Date().toISOString();
       const publicNumber = db.nextPublicNumber++;
-      const ticket: Ticket = { id, publicNumber, publicCode: `CS-${String(publicNumber).padStart(6, "0")}`, clientId: client.id, clientNameSnapshot: client.displayName, requesterUserId: user.id, requesterNameSnapshot: user.displayName, requesterEmailSnapshot: user.email, productId: product.id, productNameSnapshot: product.displayName, type: input.type, impact: input.impact, status: "OPEN", priority: "MEDIUM", category: input.type, assignedToUserId: null, subject: input.subject.trim(), createdAt: timestamp, updatedAt: timestamp, messages: [{ id: messageId, ticketId: id, authorUserId: user.id, authorName: user.displayName, authorType: "CLIENT", visibility: "PUBLIC_REPLY", body: input.description.trim(), createdAt: timestamp, attachments: attachmentsFor(input.attachments, id, messageId, user.id, timestamp) }], events: [{ id: crypto.randomUUID(), ticketId: id, actorUserId: user.id, eventType: "CREATED", newStatus: "OPEN", createdAt: timestamp, description: "Chamado aberto" }] };
+      const ticket: Ticket = { ...(origin ? { origin } : {}), id, publicNumber, publicCode: `CS-${String(publicNumber).padStart(6, "0")}`, clientId: client.id, clientNameSnapshot: client.displayName, requesterUserId: user.id, requesterNameSnapshot: user.displayName, requesterEmailSnapshot: user.email, productId: product.id, productNameSnapshot: product.displayName, type: input.type, impact: input.impact, status: "OPEN", priority: "MEDIUM", category: input.type, assignedToUserId: null, subject: input.subject.trim(), createdAt: timestamp, updatedAt: timestamp, messages: [{ id: messageId, ticketId: id, authorUserId: user.id, authorName: user.displayName, authorType: "CLIENT", visibility: "PUBLIC_REPLY", body: input.description.trim(), createdAt: timestamp, attachments: attachmentsFor(input.attachments, id, messageId, user.id, timestamp) }], events: [{ id: crypto.randomUUID(), ticketId: id, actorUserId: user.id, eventType: "CREATED", newStatus: "OPEN", createdAt: timestamp, description: "Chamado aberto" }] };
       db.tickets.push(ticket);
-      return ticket;
+      return { ticket, created: true };
     });
-    await dispatchTicketNotification(ticket, ticket.events[0].id, "TICKET_CREATED");
-    return ticket;
+    if (result.created) await dispatchTicketNotification(result.ticket, result.ticket.events[0].id, "TICKET_CREATED");
+    return result.ticket;
   }
   async reply(id: string, input: ReplyInput) {
     const user = clientSession();

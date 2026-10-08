@@ -21,12 +21,12 @@ test("CLIENT Alpha vê somente 7Commander, citação autorizada e resposta neutr
   await page.getByRole("button", { name: "Nova conversa" }).click();
   await ask(page, "Como acompanhar um projeto?");
   await expect(page.getByText("Trechos da base autorizada", { exact: false })).toBeVisible();
-  await page.getByRole("button", { name: /Abrir fonte Como acompanhar um projeto/ }).click();
+  await page.getByTitle(/Abrir fonte Como acompanhar um projeto/).click();
   await expect(page.getByRole("dialog", { name: "Fonte autorizada" })).toContainText("últimas atualizações");
-  await page.getByRole("button", { name: "Fechar painel" }).click();
+  await page.getByRole("dialog").getByRole("button", { name: "Fechar painel" }).click();
   await page.reload();
   await page.getByRole("listitem").filter({ hasText: "Conversa com Atena" }).click();
-  await expect(page.getByRole("button", { name: /Abrir fonte Como acompanhar um projeto/ })).toBeVisible();
+  await expect(page.getByTitle(/Abrir fonte Como acompanhar um projeto/)).toBeVisible();
   await ask(page, "responsável estado anterior");
   await expect(page.getByText("Não encontrei conteúdo suficiente na base autorizada para responder isso com segurança.")).toBeVisible();
   await expect(page.getByText("Falha conhecida na atualização de etapa")).toHaveCount(0);
@@ -37,7 +37,7 @@ test("CLIENT Beta recebe 7Finance e não vê conteúdo do 7Commander", async ({ 
   await expect(page.getByLabel("Produto da nova conversa").locator("option")).toHaveCount(1);
   await page.getByRole("button", { name: "Nova conversa" }).click();
   await ask(page, "Onde consultar lançamentos?");
-  await expect(page.getByRole("button", { name: /Abrir fonte Onde consultar lançamentos/ })).toBeVisible();
+  await expect(page.getByTitle(/Abrir fonte Onde consultar lançamentos/)).toBeVisible();
   await expect(page.getByText("Como acompanhar um projeto")).toHaveCount(0);
 });
 
@@ -46,7 +46,7 @@ test("SUPPORT consulta publicação interna, não vê diagnóstico e arquiva", a
   await page.getByLabel("Produto da nova conversa").selectOption("product-commander");
   await page.getByRole("button", { name: "Nova conversa" }).click();
   await ask(page, "Falha conhecida na atualização de etapa");
-  await expect(page.getByRole("button", { name: /Abrir fonte Falha conhecida na atualização de etapa/ })).toBeVisible();
+  await expect(page.getByTitle(/Abrir fonte Falha conhecida na atualização de etapa/)).toBeVisible();
   await expect(page.getByText("Diagnóstico local")).toHaveCount(0);
   await expect(page.getByText("Demonstração local")).toHaveCount(0);
   page.once("dialog", (dialog) => dialog.accept());

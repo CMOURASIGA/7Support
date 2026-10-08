@@ -46,7 +46,9 @@ export type TicketEvent = {
   newStatus?: TicketStatus;
   description: string;
 };
+export type AtenaTicketOrigin = { type: "ATENA"; conversationId: string; escalationId: string; idempotencyKey: string };
 export type Ticket = {
+  origin?: AtenaTicketOrigin;
   id: string;
   publicNumber: number;
   publicCode: string;
