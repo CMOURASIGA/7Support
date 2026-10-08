@@ -57,7 +57,7 @@ Verificação técnica em 08/10/2026: 146 testes unitários aprovados; suíte E2
 
 - Human Validation: APPROVED, confirmação de CHRISTIAN em 08/10/2026.
 - Resultado: SPEC 09 aprovada como conjunto. O registro não atribui resultados individuais de execução manual não discriminados na confirmação; a cobertura técnica acima permanece registrada separadamente.
-- Integração do PR #9 em develop: autorizada pelo mesmo aceite.
+- PR #9 retirado de Draft e integrado em develop por merge normal: `653bce6bd1b61d03e6c5e5a51ab4a3f3780f5aa9`. Aprovação documental preservada: `47873ca93438164e46dc4e69a2d7554ee0b5990a`.
 - SPEC 10: preparação documental autorizada; código bloqueado até revisão do recorte.
 
 Decisões homologadas que permanecem inalteradas:
