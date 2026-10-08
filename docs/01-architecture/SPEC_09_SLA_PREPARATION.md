@@ -2,7 +2,7 @@
 
 Status: RECORTE REVISADO E APROVADO em 08/10/2026. Implementação da SPEC 09 autorizada em `feat/spec-09-sla`, base develop `32b829f08fbed45089dac057fb828f3fb0e58618`.
 
-Este documento preserva a preparação histórica. As propostas e perguntas abaixo foram resolvidas pela aprovação do recorte. O contrato implementado, incluindo seleção temporal obrigatória, está em [SPEC_09_LOCAL_SLA.md](SPEC_09_LOCAL_SLA.md). A Human Validation está pendente; SPEC 10 não autorizada.
+Este documento preserva a preparação histórica. As propostas e perguntas abaixo foram resolvidas pela aprovação do recorte. O contrato implementado, incluindo seleção temporal obrigatória, está em [SPEC_09_LOCAL_SLA.md](SPEC_09_LOCAL_SLA.md). A Human Validation foi concluída e a SPEC 09 está APPROVED em 08/10/2026. SPEC 10 autorizada somente para preparação documental, sem código antes da revisão do recorte.
 Data: 08/10/2026. Continuidade: develop após integração da SPEC 08 APPROVED, merge `65b2da8672a7827f9b97a4f0b3fe108d02939eb7`. Commit de acesso rápido `f6c252b3a4af722ad06ff8360f0b284cecc6e812` preservado.
 
 ## Objetivo e base existente

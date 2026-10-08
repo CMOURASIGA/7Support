@@ -1,6 +1,6 @@
 # SPEC 09 - SLA local-first
 
-Status: IMPLEMENTED / PENDING HUMAN VALIDATION. Recorte autorizado em 08/10/2026.
+Status: APPROVED. Recorte e Human Validation aprovados por CHRISTIAN em 08/10/2026.
 Base: develop `32b829f08fbed45089dac057fb828f3fb0e58618`.
 Branch: `feat/spec-09-sla`. SPEC 10 não iniciada.
 

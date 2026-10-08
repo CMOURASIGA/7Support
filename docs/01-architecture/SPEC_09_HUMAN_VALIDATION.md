@@ -1,6 +1,8 @@
 # SPEC 09 - Human Validation
 
-Status: PENDING. Não declarar APPROVED antes da homologação de CHRISTIAN.
+Status: APPROVED. Human Validation concluída e aprovada expressamente por CHRISTIAN em 08/10/2026.
+Checkpoint homologado: `20f6ad0c3ff104d444b7559102971803b5c53bd8`, PR #9.
+Preview homologado: https://7-support-h0i2vimrp-christians-projects-4954426e.vercel.app.
 Branch: `feat/spec-09-sla`, base develop `32b829f08fbed45089dac057fb828f3fb0e58618`.
 Preview e SHA exatos: entrega e PR da SPEC 09. Acessar o Preview correspondente ao HEAD do PR.
 
@@ -53,8 +55,21 @@ Verificação técnica em 08/10/2026: 146 testes unitários aprovados; suíte E2
 
 ## Registro de decisão
 
-- Human Validation: PENDING.
-- Resultado visual: a preencher por CHRISTIAN.
-- Observações: a preencher.
-- Integração em develop: somente após aprovação.
-- SPEC 10: não iniciada; exige autorização separada.
+- Human Validation: APPROVED, confirmação de CHRISTIAN em 08/10/2026.
+- Resultado: SPEC 09 aprovada como conjunto. O registro não atribui resultados individuais de execução manual não discriminados na confirmação; a cobertura técnica acima permanece registrada separadamente.
+- Integração do PR #9 em develop: autorizada pelo mesmo aceite.
+- SPEC 10: preparação documental autorizada; código bloqueado até revisão do recorte.
+
+Decisões homologadas que permanecem inalteradas:
+
+- SLA 24x7 em minutos corridos, UTC no domínio e fuso somente na apresentação.
+- Política por produto + prioridade; seleção temporal original e policyVersion congelada no ciclo.
+- Primeira resposta somente por PUBLIC_REPLY operacional SUPPORT/ADMIN, sem pausa.
+- Resolução pausa em WAITING_CUSTOMER; resolução sem resposta mantém firstResponse NOT_MET.
+- REOPENED cria novo ciclo; mudança de prioridade não altera o ciclo atual.
+- Chamados anteriores sem backfill.
+- Breach idempotente; alerta somente ao responsável atual quando houver.
+- CLIENT recebe apenas resumo amigável.
+- Nenhum monitoramento com navegador fechado.
+
+O encerramento documental não modifica código, metas demo, políticas publicadas, ciclos ou máquina de estados.
