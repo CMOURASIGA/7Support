@@ -4,7 +4,7 @@
 
 ## Status geral
 
-SPEC 01 APPROVED. SPEC 02 APPROVED (modo local). SPEC 02.1 APPROVED (fundação visual). SPEC 03 APPROVED. SPEC 04 APPROVED (modo local-first). SPEC 05 APPROVED (modo local-first). SPEC 06 APPROVED (modo local-first). SPEC 07 APPROVED (modo local-first). SPEC 08 APPROVED (modo local-first). SPEC 09 NOT STARTED (preparação documental autorizada; código bloqueado até revisão do recorte).
+SPEC 01 APPROVED. SPEC 02 APPROVED (modo local). SPEC 02.1 APPROVED (fundação visual). SPEC 03 APPROVED. SPEC 04 APPROVED (modo local-first). SPEC 05 APPROVED (modo local-first). SPEC 06 APPROVED (modo local-first). SPEC 07 APPROVED (modo local-first). SPEC 08 APPROVED (modo local-first). SPEC 09 PREPARED FOR REVIEW (somente documentação; código não iniciado e bloqueado até revisão do recorte).
 
 ## Decisões aprovadas
 
@@ -116,4 +116,4 @@ O PR #7 foi integrado em `develop`, merge `f2c57f8f9bcc3dedadc802bcb1959c00028ff
 
 A suíte automatizada mantém homologados idempotência por origem, concorrência entre abas, retry, recuperação entre ticket e vínculo, notificação única, isolamento Alpha/Beta, bloqueio SUPPORT/ADMIN, revalidação de sessão, exclusão de conteúdo revogado, limite de seis mensagens/8.000 caracteres e ausência de INTERNAL, diagnóstico e criação automática.
 
-O PR #8 está autorizado para integração em `develop` por merge normal, preservando o commit de acesso rápido de validação `f6c252b3a4af722ad06ff8360f0b284cecc6e812`. A SPEC 09 tem somente preparação documental autorizada. Seu código depende da revisão e aprovação explícita do recorte. OpenRouter/OpenAI reais, Supabase, RLS real, Gmail, Google Cloud, 7Service e infraestrutura cloud permanecem fora do escopo.
+O PR #8 foi retirado de Draft e integrado em `develop` por merge normal, SHA `65b2da8672a7827f9b97a4f0b3fe108d02939eb7`, preservando o commit de acesso rápido de validação `f6c252b3a4af722ad06ff8360f0b284cecc6e812`. A SPEC 08 está encerrada. A preparação da SPEC 09 está em `docs/01-architecture/SPEC_09_SLA_PREPARATION.md`, PREPARED FOR REVIEW, somente documentação. Seu código depende da revisão e aprovação explícita do recorte. OpenRouter/OpenAI reais, Supabase, RLS real, Gmail, Google Cloud, 7Service e infraestrutura cloud permanecem fora do escopo.
