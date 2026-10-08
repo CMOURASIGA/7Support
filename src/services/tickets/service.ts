@@ -73,6 +73,13 @@ export class TicketService {
   async get(id: string) { const ticket = (await this.repository.read()).tickets.find((candidate) => candidate.id === id); if (!ticket) throw new TicketError("NOT_FOUND", "Chamado não encontrado."); allowed(ticket); return forClient(ticket); }
   async listInternal() { internalSession(); return sortTickets((await this.repository.read()).tickets); }
   async getInternal(id: string) { internalSession(); const ticket = (await this.repository.read()).tickets.find((item) => item.id === id); if (!ticket) throw new TicketError("NOT_FOUND", "Chamado não encontrado."); return ticket; }
+  async reportingTickets() {
+    const actor = internalSession();
+    if (!this.repository.readOnly) throw new TicketError("STORAGE", "O repositório não oferece consulta somente leitura.");
+    const database = await this.repository.readOnly();
+    if (internalSession().id !== actor.id || internalSession().role !== actor.role) throw new TicketError("FORBIDDEN", "A sessão mudou.");
+    return database.tickets;
+  }
   async slaHistory(id: string) {
     const user = session();
     const ticket = (await this.repository.read()).tickets.find(item => item.id === id);

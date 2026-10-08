@@ -160,6 +160,12 @@ export class SlaService {
     const cycle: SlaCycle = { id: "demo", originKey: "demo", ticketId: "demo", tenantId: "demo", startEventId: "start", cycleNumber: 1, startedAt, priorityAtCycleStart: policy.priority, policyVersionId: policy.id, policySnapshot: policy, evaluatedAt: null, evaluation: null, audit: [] };
     return calculateSla(cycle, history, time(elapsed));
   }
+  async reportingSnapshot() {
+    const user = internal();
+    const [tickets, database] = await Promise.all([this.tickets.reportingTickets(), this.cycles.read()]); sameSession(user);
+    const authorized = new Map(tickets.map(ticket => [ticket.id, ticket.clientId]));
+    return structuredClone(database.cycles.filter(cycle => authorized.get(cycle.ticketId) === cycle.tenantId));
+  }
   async listInternal() {
     const user = internal(); const tickets = await this.tickets.listInternal(); sameSession(user);
     const views: Record<string, InternalSlaView> = {};

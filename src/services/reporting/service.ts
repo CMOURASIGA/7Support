@@ -84,9 +84,9 @@ export class ReportingService {
   constructor(private readonly tickets: TicketService, private readonly sla: SlaService, private readonly satisfaction: SatisfactionRepository, private readonly clock = { now: () => new Date() }) {}
   async generate(filters: ReportFilters) {
     const user = internal();
-    const tickets = await this.tickets.listInternal(); const views = await this.sla.listForReporting(); const records = (await this.satisfaction.read()).records;
+    const tickets = await this.tickets.reportingTickets(); const cycles = await this.sla.reportingSnapshot(); const records = (await this.satisfaction.read()).records;
     sameSession(user.id);
-    return calculateOperationalReport({ tickets, cycles: Object.values(views).flatMap(view => view.cycles), satisfactions: records, filters, now: this.clock.now() });
+    return calculateOperationalReport({ tickets, cycles, satisfactions: records, filters, now: this.clock.now() });
   }
 }
 

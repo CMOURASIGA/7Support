@@ -36,6 +36,13 @@ function load(): TicketDatabase {
 export class LocalTicketRepository implements TicketRepository {
   private queue: Promise<unknown> = Promise.resolve();
   async read() { return structuredClone(load()); }
+  async readOnly(): Promise<TicketDatabase> {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) return { version: 2, nextPublicNumber: 1, tickets: [] };
+    const parsed: unknown = JSON.parse(raw); assertDatabase(parsed);
+    const tickets = parsed.tickets.map(ticket => ({ ...ticket, priority: ticket.priority ?? "MEDIUM", category: ticket.category ?? ticket.type, demo: ticket.demo ?? (ticket.publicNumber <= 7 && !ticket.origin) }));
+    return structuredClone({ ...parsed, version: 2, tickets });
+  }
   async transact<T>(update: (database: TicketDatabase) => T | Promise<T>): Promise<T> {
     const work = async () => {
       const current = structuredClone(load());
