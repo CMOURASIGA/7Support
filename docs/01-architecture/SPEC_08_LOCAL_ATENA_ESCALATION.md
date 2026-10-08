@@ -1,7 +1,7 @@
 # SPEC 08 - Atena Escalation (local-first)
 
 Base: `develop`, `7ccda0b88119b0d7f981421d2062406330b43ace`.
-Branch: `feat/spec-08-atena-escalation`. Implementada, pendente de Human Validation.
+Branch: `feat/spec-08-atena-escalation`. APPROVED em 08/10/2026 após Human Validation.
 
 ## Fluxo e autoridade
 
@@ -45,4 +45,4 @@ A conversa continua ACTIVE. Interface exibe somente o código público e link `/
 
 ## Limites mantidos
 
-Identidade e persistência locais são proteções funcionais da demonstração; não são RLS ou backend de produção. Nenhuma integração cloud/provider real, SLA, anexos da conversa, criação automática ou criação por SUPPORT/ADMIN foi adicionada. SPEC 09 não iniciada. Aprovação e merge continuam pendentes de homologação humana.
+Identidade e persistência locais são proteções funcionais da demonstração; não são RLS ou backend de produção. Nenhuma integração cloud/provider real, SLA, anexos da conversa, criação automática ou criação por SUPPORT/ADMIN foi adicionada. SPEC 09 não iniciada. Human Validation concluída e merge do PR #8 autorizado em 08/10/2026, preservando o acesso rápido de validação.

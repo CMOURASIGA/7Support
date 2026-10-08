@@ -1,6 +1,6 @@
 # SPEC 08 - Human Validation
 
-Status: pendente. Usar a branch `feat/spec-08-atena-escalation` e navegador atualizado com Web Locks.
+Status: APPROVED em 08/10/2026, confirmado pelo responsável do produto. Roteiro preservado para regressão. Usar a branch `feat/spec-08-atena-escalation` e navegador atualizado com Web Locks.
 
 ## Roteiro
 
@@ -43,6 +43,12 @@ Status: pendente. Usar a branch `feat/spec-08-atena-escalation` e navegador atua
 - git diff --check: passou.
 - Build: passou (Next.js, 15 rotas).
 - Execução local usou Chromium 153 via instalação temporária externa ao projeto porque o CDN do Playwright retornou arquivo inválido. Nenhuma dependência/configuração da aplicação foi alterada para esse contorno.
-- Human Validation: não executada pelo usuário; não considerar APPROVED.
+- Human Validation: concluída pelo usuário, SPEC 08 APPROVED.
 
 Seletores antigos da regressão foram ajustados para nomes/títulos atuais, textos exatos, botão de fechamento dentro do drawer/menu e conclusão da navegação antes de logout. Nenhuma asserção de autorização foi removida.
+
+## Registro da aprovação
+
+Homologados visualmente: abertura explícita, drawer de revisão, produto read-only, defaults de tipo/impacto, assunto e descrição derivados, escalada de resposta neutra, CS-000008, notificação, vínculo persistido, bloqueio de segunda escalada, rota CLIENT e correspondência de produto/assunto/descrição/impacto/status inicial no Ticket Core. Os cenários técnicos permanecem homologados pela suíte automatizada descrita acima.
+
+Autorizados: retirar Draft do PR #8 e integrar em develop, preservando o commit de acesso rápido f6c252b3a4af722ad06ff8360f0b284cecc6e812. SPEC 09 somente em preparação documental; sem autorização de código.
