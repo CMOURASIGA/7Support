@@ -8,7 +8,7 @@ import { useTicket } from "@/features/tickets/use-tickets";
 import { type AttachmentInput, impactLabels, typeLabels } from "@/features/tickets/types";
 import { ticketService } from "@/services/tickets/service";
 import { useToast } from "@/components/ui/toast";
-import { SlaPanel } from "@/components/sla/sla-panel";
+import { ClientSlaWithSatisfaction as SlaPanel } from "@/components/sla/sla-panel";
 import { Card } from "@/components/ui/card";
 import { AttachmentPicker } from "@/components/tickets/attachment-picker";
 import { BackLink, formatDate, PageHeading, StatusBadge, TicketFeedback } from "@/components/tickets/ticket-ui";

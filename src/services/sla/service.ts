@@ -166,5 +166,11 @@ export class SlaService {
     for (const ticket of tickets) views[ticket.id] = await this.getInternal(ticket.id);
     return views;
   }
+  async listForReporting() {
+    const user = internal(); const tickets = await this.tickets.listInternal(); sameSession(user);
+    const views: Record<string, InternalSlaView> = {};
+    for (const ticket of tickets) views[ticket.id] = await this.evaluate(ticket.id, false);
+    sameSession(user); return views;
+  }
 }
 export const slaService = new SlaService(slaPolicyRepository, slaCycleRepository, ticketService, notificationService);

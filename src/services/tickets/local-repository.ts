@@ -25,6 +25,7 @@ function load(): TicketDatabase {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
       return migrated;
     }
+    for (const ticket of parsed.tickets) ticket.demo ??= ticket.publicNumber <= 7 && !ticket.origin;
     return parsed;
   }
   const initial = createDemoDatabase();

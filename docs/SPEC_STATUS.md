@@ -4,7 +4,7 @@
 
 ## Status geral
 
-SPEC 01 APPROVED. SPEC 02 APPROVED (modo local). SPEC 02.1 APPROVED (fundação visual). SPEC 03 APPROVED. SPEC 04 APPROVED (modo local-first). SPEC 05 APPROVED (modo local-first). SPEC 06 APPROVED (modo local-first). SPEC 07 APPROVED (modo local-first). SPEC 08 APPROVED (modo local-first). SPEC 09 APPROVED (Human Validation concluída em 08/10/2026; modo local-first). SPEC 10 PREPARED FOR REVIEW (somente documentação; código não iniciado).
+SPEC 01 APPROVED. SPEC 02 APPROVED (modo local). SPEC 02.1 APPROVED (fundação visual). SPEC 03 APPROVED. SPEC 04 APPROVED (modo local-first). SPEC 05 APPROVED (modo local-first). SPEC 06 APPROVED (modo local-first). SPEC 07 APPROVED (modo local-first). SPEC 08 APPROVED (modo local-first). SPEC 09 APPROVED (Human Validation concluída em 08/10/2026; modo local-first). SPEC 10 READY FOR HUMAN VALIDATION (implementação local-first no recorte RN-01 a RN-12; aguardando homologação e sem merge).
 
 ## Decisões aprovadas
 
@@ -36,7 +36,7 @@ SPEC 01 APPROVED. SPEC 02 APPROVED (modo local). SPEC 02.1 APPROVED (fundação 
 | Anexos | APPROVED | privados |
 | Auditoria | APPROVED | obrigatória |
 | SLA | APPROVED | SPEC 09 local-first 24x7; valores comerciais futuros |
-| Satisfação | READY | sim/não + rating opcional |
+| Satisfação | READY FOR HUMAN VALIDATION | sim/não obrigatório por resolução + rating/comentário opcionais; reporting operacional |
 | WhatsApp/Telegram | OUT OF SCOPE | fase inicial |
 | Ações automáticas da IA | OUT OF SCOPE | fase inicial |
 
