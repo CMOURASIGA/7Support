@@ -1,4 +1,5 @@
 export const notificationTypes = [
+  "SLA_BREACHED",
   "TICKET_CREATED",
   "TICKET_ASSIGNED",
   "TICKET_TRANSFERRED",
@@ -63,6 +64,7 @@ export type TicketNotificationEvent = {
 };
 
 export const notificationTypeLabels: Record<NotificationType, string> = {
+  SLA_BREACHED: "Prazo SLA excedido",
   TICKET_CREATED: "Chamado criado",
   TICKET_ASSIGNED: "Novo chamado atribuído",
   TICKET_TRANSFERRED: "Chamado transferido",

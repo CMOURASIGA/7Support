@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight, Eye, Hand, ExternalLink } from "lucide-react";
 import { ActionButton } from "@/components/ui/action-button";
 import { Badge } from "@/components/ui/badge";
+import { SlaPanel } from "@/components/sla/sla-panel";
 import { Drawer } from "@/components/ui/drawer";
 import { formatDate, StatusBadge } from "@/components/tickets/ticket-ui";
 import { categoryLabels, priorityLabels, type Ticket, type TicketPriority } from "@/features/tickets/types";
@@ -22,6 +23,7 @@ export function InternalQuickView({ ticket, onClose }: { ticket: Ticket | null; 
       ["Criado em", formatDate(ticket.createdAt)], ["Última atualização", formatDate(ticket.updatedAt)],
       ["Última interação", formatDate([...ticket.messages.map((item) => item.createdAt), ...ticket.events.map((item) => item.createdAt)].sort().at(-1) ?? ticket.createdAt)],
     ].map(([label, value]) => <div key={label} className="min-w-0"><dt className="workspace-section-label">{label}</dt><dd className="mt-1 break-words">{value}</dd></div>)}</dl>
+    <SlaPanel ticketId={ticket.id} />
     <p className="whitespace-pre-wrap rounded-xl bg-[var(--bg-muted)] p-3 leading-6">{ticket.messages[0]?.body}</p>
     <Link href={`/support/tickets/${ticket.id}`} onClick={onClose} className="workspace-button-primary">Abrir chamado completo <ArrowRight size={16} /></Link>
   </div>}</Drawer>;

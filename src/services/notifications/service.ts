@@ -4,6 +4,7 @@ import { localIdentityStore } from "@/services/local-identity/store";
 import { localNotificationRepository } from "@/services/notifications/local-repository";
 import type { NotificationRepository } from "@/services/notifications/repository";
 import { localDeliveryProvider } from "@/services/notifications/local-delivery-provider";
+import { demoOperators } from "@/services/tickets/operators";
 import type { DeliveryProvider } from "@/services/notifications/provider";
 
 export class NotificationError extends Error {
@@ -20,6 +21,9 @@ function currentUser() {
 
 function candidateFor(event: TicketNotificationEvent): Candidate | null {
   switch (event.type) {
+    case "SLA_BREACHED":
+      return event.assignedToUserId && demoOperators.some(operator => operator.id === event.assignedToUserId)
+        ? { userId: event.assignedToUserId, title: `Prazo excedido em ${event.ticketCode}`, body: `Revise o SLA do chamado ${event.subject} em ${event.productName}.` } : null;
     case "TICKET_CREATED":
       return { userId: event.requesterUserId, title: `${event.ticketCode} aberto com sucesso`, body: `Recebemos seu chamado sobre ${event.subject} em ${event.productName}.` };
     case "TICKET_ASSIGNED":
@@ -86,7 +90,7 @@ export class NotificationService {
   async process(event: TicketNotificationEvent): Promise<NotificationWithDelivery | null> {
     const candidate = candidateFor(event);
     if (!candidate) return null;
-    const idempotencyKey = `${event.id}:${candidate.userId}:${event.type}`;
+    const idempotencyKey = event.type === "SLA_BREACHED" ? event.id : `${event.id}:${candidate.userId}:${event.type}`;
     const createdAt = new Date().toISOString();
     const result = await this.repository.transact((database) => {
       const existing = database.notifications.find((item) => item.idempotencyKey === idempotencyKey);

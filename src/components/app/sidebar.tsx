@@ -17,6 +17,7 @@ export function Sidebar({ isMobileOpen, onCloseMobile }: { isMobileOpen: boolean
       { label: "Notificações", href: "/notifications", icon: Bell },
       { label: "Base de conhecimento", href: "/knowledge", icon: BookOpen },
       { label: "Atena", href: "/atena", icon: Sparkles },
+      ...(user?.role === "ADMIN" ? [{ label: "Políticas SLA", href: "/admin/sla", icon: ListFilter }] : []),
     ] },
   ];
   return <>
