@@ -21,7 +21,7 @@ async function createClientTicket(page: Page, subject: string) {
   await page.getByLabel("Descrição").fill("Descrição pública para validar notificações.");
   await page.getByLabel("Impacto").selectOption("BLOCKING");
   await page.getByRole("button", { name: "Abrir chamado" }).click();
-  await expect(page).toHaveURL(/\/tickets\/.+/);
+  await expect(page).toHaveURL(/\/tickets\/(?!new$)[^/]+$/);
 }
 
 test("CLIENT recebe confirmação, lê pelo drawer e preserva leitura após refresh", async ({ page }) => {

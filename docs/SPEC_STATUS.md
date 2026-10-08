@@ -4,7 +4,7 @@
 
 ## Status geral
 
-SPEC 01 APPROVED. SPEC 02 APPROVED (modo local). SPEC 02.1 APPROVED (fundação visual). SPEC 03 APPROVED. SPEC 04 APPROVED (modo local-first). SPEC 05 APPROVED (modo local-first). SPEC 06 APPROVED (modo local-first). SPEC 07 APPROVED (modo local-first). SPEC 08 APPROVED (modo local-first). SPEC 09 PREPARED FOR REVIEW (somente documentação; código não iniciado e bloqueado até revisão do recorte).
+SPEC 01 APPROVED. SPEC 02 APPROVED (modo local). SPEC 02.1 APPROVED (fundação visual). SPEC 03 APPROVED. SPEC 04 APPROVED (modo local-first). SPEC 05 APPROVED (modo local-first). SPEC 06 APPROVED (modo local-first). SPEC 07 APPROVED (modo local-first). SPEC 08 APPROVED (modo local-first). SPEC 09 APPROVED (Human Validation concluída em 08/10/2026; modo local-first). SPEC 10 NÃO INICIADA.
 
 ## Decisões aprovadas
 
@@ -35,7 +35,7 @@ SPEC 01 APPROVED. SPEC 02 APPROVED (modo local). SPEC 02.1 APPROVED (fundação 
 | Escalonamento IA -> ticket | APPROVED | com contexto |
 | Anexos | APPROVED | privados |
 | Auditoria | APPROVED | obrigatória |
-| SLA | READY | configurável, valores comerciais futuros |
+| SLA | APPROVED | SPEC 09 local-first 24x7; valores comerciais futuros |
 | Satisfação | READY | sim/não + rating opcional |
 | WhatsApp/Telegram | OUT OF SCOPE | fase inicial |
 | Ações automáticas da IA | OUT OF SCOPE | fase inicial |
@@ -116,4 +116,4 @@ O PR #7 foi integrado em `develop`, merge `f2c57f8f9bcc3dedadc802bcb1959c00028ff
 
 A suíte automatizada mantém homologados idempotência por origem, concorrência entre abas, retry, recuperação entre ticket e vínculo, notificação única, isolamento Alpha/Beta, bloqueio SUPPORT/ADMIN, revalidação de sessão, exclusão de conteúdo revogado, limite de seis mensagens/8.000 caracteres e ausência de INTERNAL, diagnóstico e criação automática.
 
-O PR #8 foi retirado de Draft e integrado em `develop` por merge normal, SHA `65b2da8672a7827f9b97a4f0b3fe108d02939eb7`, preservando o commit de acesso rápido de validação `f6c252b3a4af722ad06ff8360f0b284cecc6e812`. A SPEC 08 está encerrada. A preparação da SPEC 09 está em `docs/01-architecture/SPEC_09_SLA_PREPARATION.md`, PREPARED FOR REVIEW, somente documentação. Seu código depende da revisão e aprovação explícita do recorte. OpenRouter/OpenAI reais, Supabase, RLS real, Gmail, Google Cloud, 7Service e infraestrutura cloud permanecem fora do escopo.
+O PR #8 foi retirado de Draft e integrado em `develop` por merge normal, SHA `65b2da8672a7827f9b97a4f0b3fe108d02939eb7`, preservando o commit de acesso rápido de validação `f6c252b3a4af722ad06ff8360f0b284cecc6e812`. A SPEC 08 está encerrada. O recorte da SPEC 09 foi revisado e aprovado em 08/10/2026, com implementação autorizada a partir de develop `32b829f08fbed45089dac057fb828f3fb0e58618`, branch `feat/spec-09-sla`. SPEC 09 APPROVED em 08/10/2026, por confirmação explícita de CHRISTIAN: políticas imutáveis versionadas por produto/prioridade, seleção temporal pelo início do ciclo, dois relógios 24x7, pausas de resolução, reconciliação e breach local idempotente. Contrato em `docs/01-architecture/SPEC_09_LOCAL_SLA.md` e roteiro em `docs/01-architecture/SPEC_09_HUMAN_VALIDATION.md`. Human Validation registrada no roteiro; integração do PR #9 em develop autorizada. SPEC 10 sem código iniciado e sujeita à revisão do recorte documental. OpenRouter/OpenAI reais, Supabase, RLS real, Gmail, Google Cloud, 7Service e infraestrutura cloud permanecem fora do escopo.

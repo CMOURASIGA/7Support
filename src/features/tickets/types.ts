@@ -24,6 +24,7 @@ export type TicketAttachment = {
 };
 export type TicketMessage = {
   id: string;
+  eventId?: string;
   ticketId: string;
   authorUserId: string;
   authorName: string;
@@ -45,6 +46,9 @@ export type TicketEvent = {
   oldStatus?: TicketStatus;
   newStatus?: TicketStatus;
   description: string;
+  slaStart?: { priority: TicketPriority };
+  oldPriority?: TicketPriority;
+  newPriority?: TicketPriority;
 };
 export type AtenaTicketOrigin = { type: "ATENA"; conversationId: string; escalationId: string; idempotencyKey: string };
 export type Ticket = {
