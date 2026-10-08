@@ -46,6 +46,7 @@ export type TicketEvent = {
   oldStatus?: TicketStatus;
   newStatus?: TicketStatus;
   description: string;
+  satisfactionEligible?: true;
   slaStart?: { priority: TicketPriority };
   oldPriority?: TicketPriority;
   newPriority?: TicketPriority;

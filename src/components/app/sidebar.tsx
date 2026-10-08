@@ -14,6 +14,7 @@ export function Sidebar({ isMobileOpen, onCloseMobile }: { isMobileOpen: boolean
     { label: "Principal", items: [
       { label: "Início", href: "/", icon: Home },
       ...(user?.role === "CLIENT" ? [{ label: "Meus chamados", href: "/tickets", icon: LifeBuoy }, { label: "Novo chamado", href: "/tickets/new", icon: PlusCircle }] : [{ label: "Fila de atendimento", href: "/support/queue", icon: ListFilter }, { label: "Todos os chamados", href: "/support/tickets", icon: LifeBuoy }]),
+      ...(user?.role !== "CLIENT" ? [{ label: "Relatórios", href: "/support/reports", icon: ListFilter }] : []),
       { label: "Notificações", href: "/notifications", icon: Bell },
       { label: "Base de conhecimento", href: "/knowledge", icon: BookOpen },
       { label: "Atena", href: "/atena", icon: Sparkles },

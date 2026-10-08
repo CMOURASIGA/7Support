@@ -1,6 +1,8 @@
 # SPEC 10 - Satisfaction / Reporting: preparação
 
-Status: PREPARED FOR REVIEW, somente documentação. Código não iniciado.
+Status: RECORTE APPROVED em 08/10/2026; implementação autorizada por CHRISTIAN.
+
+Este arquivo preserva a proposta original para histórico. As decisões aprovadas e os contratos implementados estão em [SPEC_10_LOCAL_SATISFACTION_REPORTING.md](SPEC_10_LOCAL_SATISFACTION_REPORTING.md), que prevalece sobre perguntas e propostas abaixo. A implementação parte de develop `fecab9f4f85c8c7ee9620d45aa865cab157752d4`. Human Validation da SPEC 10 permanece pendente.
 Data: 08/10/2026. Base oficial: develop após SPEC 09 APPROVED.
 Merge da SPEC 09: `653bce6bd1b61d03e6c5e5a51ab4a3f3780f5aa9`, PR #9.
 Checkpoint funcional homologado: `20f6ad0c3ff104d444b7559102971803b5c53bd8`.
@@ -68,7 +70,7 @@ Relatórios CLIENT agregados, exportação, gráficos adicionais e comparação 
 | Demo | Identificar dados demo, sem apresentar números como produção | Decidir inclusão padrão e filtro; avaliar se basta distinguir o ambiente local inteiro |
 | Exportação | Fora do recorte inicial recomendado | Confirmar se CSV entra agora e quais campos autorizados pode conter |
 
-Nenhuma dessas propostas foi aprovada pela homologação da SPEC 09. Atualizar este documento com as decisões antes de iniciar código.
+Estas eram perguntas da preparação original; a aprovação posterior da SPEC 10 está registrada no contrato definitivo indicado no início. A aprovação da SPEC 09 permanece independente.
 
 ## Contratos indicativos
 

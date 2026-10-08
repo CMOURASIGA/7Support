@@ -88,6 +88,25 @@ export class TicketService {
         .map(message => ({ id: message.id, eventId: message.eventId, createdAt: message.createdAt })),
     };
   }
+  async reportingTickets() {
+    const actor = internalSession();
+    if (!this.repository.readOnly) throw new TicketError("STORAGE", "O repositório não oferece consulta somente leitura.");
+    const database = await this.repository.readOnly();
+    if (internalSession().id !== actor.id) throw new TicketError("FORBIDDEN", "A sessão mudou.");
+    return database.tickets;
+  }
+  async withSatisfactionTicket<T>(id: string, work: (ticket: Ticket) => Promise<T>): Promise<T> {
+    const user = clientSession();
+    if (typeof navigator === "undefined" || !navigator.locks?.request) throw new TicketError("STORAGE", "A avaliação requer um navegador com transações seguras.");
+    return this.repository.transact(async database => {
+      const ticket = database.tickets.find(item => item.id === id);
+      if (!ticket) throw new TicketError("NOT_FOUND", "Chamado não encontrado.");
+      if (clientSession().id !== user.id || clientSession().clientId !== user.clientId) throw new TicketError("FORBIDDEN", "A sessão mudou.");
+      allowed(ticket);
+      if (!localIdentityStore.productsFor(user).some(product => product.id === ticket.productId)) throw new TicketError("FORBIDDEN", "Produto não autorizado.");
+      return work(structuredClone(ticket));
+    });
+  }
   operators() { internalSession(); return demoOperators; }
   async createFromAtena(input: NewTicketInput, reference: { conversationId: string; escalationId: string }, revalidate: () => Promise<{ id: string; productId: string; userId: string; tenantId: string }>) {
     const user = clientSession();
@@ -207,7 +226,7 @@ export class TicketService {
       if (["RESOLVED", "REOPENED"].includes(status) && !reason.trim()) throw new TicketError("VALIDATION", "Informe o motivo da resolução ou reabertura.");
       if (reason.length > 2000) throw new TicketError("VALIDATION", "O motivo deve ter até 2.000 caracteres.");
       const previous = ticket.status; ticket.status = status;
-      ticket.events.push({ ...this.audit(ticket, actor, "STATUS_CHANGED", reason.trim() || `${previous} → ${status}`, "PUBLIC"), oldStatus: previous, newStatus: status, ...(status === "REOPENED" ? { slaStart: { priority: ticket.priority } } : {}) });
+      ticket.events.push({ ...this.audit(ticket, actor, "STATUS_CHANGED", reason.trim() || `${previous} → ${status}`, "PUBLIC"), oldStatus: previous, newStatus: status, ...(status === "RESOLVED" ? { satisfactionEligible: true as const } : {}), ...(status === "REOPENED" ? { slaStart: { priority: ticket.priority } } : {}) });
     });
     if (status === "RESOLVED" || status === "REOPENED") await dispatchTicketNotification(ticket, ticket.events.at(-1)!.id, status === "RESOLVED" ? "TICKET_RESOLVED" : "TICKET_REOPENED");
     return ticket;

@@ -7,6 +7,7 @@ import { AttachmentPicker } from "@/components/tickets/attachment-picker";
 import { BackLink, formatDate, PageHeading, StatusBadge, TicketFeedback } from "@/components/tickets/ticket-ui";
 import { PriorityBadge } from "@/components/support/support-ui";
 import { Badge } from "@/components/ui/badge";
+import { SatisfactionPanel } from "@/components/satisfaction/satisfaction-panel";
 import { SlaPanel } from "@/components/sla/sla-panel";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/toast";
@@ -50,7 +51,7 @@ function InternalDetail({ id }: { id: string }) {
         ["Tipo", categoryLabels[ticket.type]], ["Impacto", impactLabels[ticket.impact]], ["Categoria", categoryLabels[ticket.category]], ["Responsável", operatorName(ticket.assignedToUserId)],
         ["Criado em", formatDate(ticket.createdAt)], ["Atualizado em", formatDate(ticket.updatedAt)], ["Status", statusLabels[ticket.status]], ["Prioridade", priorityLabels[ticket.priority]],
       ].map(([label, value]) => <div key={label}><dt className="workspace-section-label">{label}</dt><dd className="mt-1 break-words">{value}</dd></div>)}</dl></Card>
-      <SlaPanel ticketId={id} />
+      <SlaPanel ticketId={id} /><SatisfactionPanel ticketId={id} />
       <Card><h3 className="text-base font-semibold">Ações operacionais</h3><div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div><p className="mb-1 text-sm font-medium">Responsável</p><select aria-label="Transferir responsável" className="workspace-select" value={ticket.assignedToUserId ?? ""} disabled={busy} onChange={(event) => void action("Responsável atualizado", () => ticketService.assign(id, event.target.value))}><option value="" disabled>Sem responsável</option>{demoOperators.map((item) => <option key={item.id} value={item.id}>{item.displayName}</option>)}</select>{!ticket.assignedToUserId && <button type="button" disabled={busy} className="workspace-button-secondary mt-2" onClick={() => void action("Chamado assumido", () => ticketService.assume(id))}>Assumir chamado</button>}</div>
         <label className="text-sm font-medium">Prioridade<select className="workspace-select mt-1" value={ticket.priority} disabled={busy} onChange={(event) => void action("Prioridade atualizada", () => ticketService.changePriority(id, event.target.value as TicketPriority))}>{priorities.map((item) => <option key={item} value={item}>{priorityLabels[item]}</option>)}</select></label>
