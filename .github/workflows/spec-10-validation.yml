@@ -1,0 +1,42 @@
+name: SPEC 10 validation
+
+on:
+  push:
+    branches:
+      - feat/spec-10-satisfaction-reporting
+  pull_request:
+    branches:
+      - develop
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run build
+      - run: npm run test:unit
+      - run: git diff --check
+      - run: npm run test:e2e
+      - name: Publicar evidências Playwright
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: spec-10-playwright-evidence
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: warn
+          retention-days: 30
