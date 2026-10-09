@@ -1,9 +1,6 @@
 name: SPEC 10 validation
 
 on:
-  push:
-    branches:
-      - feat/spec-10-satisfaction-reporting
   pull_request:
     branches:
       - develop
