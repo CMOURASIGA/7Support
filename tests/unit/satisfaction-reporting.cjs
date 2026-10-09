@@ -5,6 +5,7 @@ Module._resolveFilename = function (request, parent, ...rest) { if (request.star
 require.extensions['.ts'] = (module, filename) => { module._compile(ts.transpileModule(fs.readFileSync(filename, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText, filename); };
 class MemoryStorage { data = new Map(); getItem(key) { return this.data.get(key) ?? null; } setItem(key, value) { this.data.set(key, String(value)); } removeItem(key) { this.data.delete(key); } clear() { this.data.clear(); } }
 const events = new EventTarget(); global.window = { localStorage: new MemoryStorage(), addEventListener: events.addEventListener.bind(events), removeEventListener: events.removeEventListener.bind(events), dispatchEvent: events.dispatchEvent.bind(events) }; global.localStorage = global.window.localStorage;
+global.navigator ??= {};
 const locks = new Map(); Object.defineProperty(global.navigator, 'locks', { configurable: true, value: { request(name, callback) { const previous = locks.get(name) ?? Promise.resolve(); const next = previous.then(callback, callback); locks.set(name, next.catch(() => {})); return next; } } });
 const { localIdentityStore } = require('../../src/services/local-identity/store.ts');
 const { TicketService } = require('../../src/services/tickets/service.ts'); const { LocalTicketRepository } = require('../../src/services/tickets/local-repository.ts');
