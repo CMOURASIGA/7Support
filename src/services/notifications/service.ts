@@ -21,6 +21,9 @@ function currentUser() {
 
 function candidateFor(event: TicketNotificationEvent): Candidate | null {
   switch (event.type) {
+    case "SATISFACTION_ALERT":
+      return event.assignedToUserId && demoOperators.some(operator => operator.id === event.assignedToUserId)
+        ? { userId: event.assignedToUserId, title: `Avaliação requer atenção em ${event.ticketCode}`, body: `O cliente registrou uma avaliação que requer acompanhamento no chamado ${event.subject}.` } : null;
     case "SLA_BREACHED":
       return event.assignedToUserId && demoOperators.some(operator => operator.id === event.assignedToUserId)
         ? { userId: event.assignedToUserId, title: `Prazo excedido em ${event.ticketCode}`, body: `Revise o SLA do chamado ${event.subject} em ${event.productName}.` } : null;
@@ -90,7 +93,7 @@ export class NotificationService {
   async process(event: TicketNotificationEvent): Promise<NotificationWithDelivery | null> {
     const candidate = candidateFor(event);
     if (!candidate) return null;
-    const idempotencyKey = event.type === "SLA_BREACHED" ? event.id : `${event.id}:${candidate.userId}:${event.type}`;
+    const idempotencyKey = ["SLA_BREACHED", "SATISFACTION_ALERT"].includes(event.type) ? event.id : `${event.id}:${candidate.userId}:${event.type}`;
     const createdAt = new Date().toISOString();
     const result = await this.repository.transact((database) => {
       const existing = database.notifications.find((item) => item.idempotencyKey === idempotencyKey);

@@ -32,6 +32,7 @@ const lockManager = { request(name, callback) {
   locks.set(name, next.catch(() => {}));
   return next;
 } };
+global.navigator ??= {};
 Object.defineProperty(global.navigator, 'locks', { value: lockManager, configurable: true });
 const { localIdentityStore } = require('../../src/services/local-identity/store.ts');
 const { knowledgeService } = require('../../src/services/knowledge/service.ts');

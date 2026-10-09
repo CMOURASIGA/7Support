@@ -1,12 +1,30 @@
 # SPEC 10 - Satisfaction / Reporting: preparação
 
-Status: PREPARED FOR REVIEW, somente documentação. Código não iniciado.
+Status: AUTHORIZED FOR IMPLEMENTATION em 08/10/2026.
 Data: 08/10/2026. Base oficial: develop após SPEC 09 APPROVED.
 Merge da SPEC 09: `653bce6bd1b61d03e6c5e5a51ab4a3f3780f5aa9`, PR #9.
 Checkpoint funcional homologado: `20f6ad0c3ff104d444b7559102971803b5c53bd8`.
 Encerramento documental da aprovação: `47873ca93438164e46dc4e69a2d7554ee0b5990a`.
 
-Este documento propõe um recorte para revisão de CHRISTIAN. Propostas abaixo não são decisões homologadas nem autorização de implementação. Nenhuma branch de feature ou código da SPEC 10 foi iniciado.
+Branch base confirmada: `develop` em `fecab9f4f85c8c7ee9620d45aa865cab157752d4`.
+Branch de implementação: `feat/spec-10-satisfaction-reporting`.
+
+## Decisões homologadas RN-01 a RN-12
+
+- **RN-01, elegibilidade:** somente o CLIENT solicitante, no tenant do chamado, pode avaliar um evento RESOLVED próprio. Identidade, ownership e autorização são derivados da sessão e revalidados no commit.
+- **RN-02, cardinalidade:** existe no máximo uma avaliação por evento de resolução, usuário e chamado. A origem estável é `SATISFACTION:<ticketId>:<resolutionEventId>:<userId>`.
+- **RN-03, conteúdo:** `resolvedAnswer` Sim/Não é obrigatório. Rating inteiro 1..5 e comentário de até 2.000 caracteres são opcionais.
+- **RN-04, imutabilidade:** avaliação confirmada não é editada. Retry com qualquer clientRequestId retorna o registro original e nunca sobrescreve conteúdo.
+- **RN-05, reabertura:** REOPENED invalida oportunidade ainda pendente do ciclo anterior. Avaliações já confirmadas permanecem no histórico; nova resolução gera nova oportunidade.
+- **RN-06, insatisfação:** resposta Não ou rating 1/2 cria uma única notificação interna para o responsável atual, quando houver. Não envia e-mail, não reabre e não altera status ou prioridade. O comentário não integra a notificação.
+- **RN-07, vínculo e auditoria:** persistir ticket, evento de resolução, tenant, produto, CLIENT e ciclo SLA quando disponível, além de origem, clientRequestId, timestamp e auditoria de envio.
+- **RN-08, filtros:** relatórios SUPPORT/ADMIN oferecem 7, 30 e 90 dias, mês atual e intervalo personalizado, além de cliente, produto, tipo e origem. Períodos do domínio são UTC em intervalo `[início, fim)`.
+- **RN-09, indicadores:** volume criado e resoluções, média/mediana de primeira resposta e resolução, reabertura, SLA, satisfação positiva, rating médio e participação usam coortes e denominadores explícitos. SLA histórico congelado não é recalculado. Ausentes e excluídos não viram zero.
+- **RN-10, exportação:** CSV de resumo, chamados, SLA e satisfação reutiliza filtros e autorização do relatório. Comentários individuais e IDs técnicos são excluídos. Campos são neutralizados contra CSV Injection.
+- **RN-11, experiência:** dashboard interno segue 7Commander com KPIs, evolução, tabela, filtros, loading, erro/retry, vazio e responsividade. Dados demo são identificados e excluídos do filtro Operacional padrão.
+- **RN-12, arquitetura:** manter local-first com Service/Repository, bases versionadas, transações e Web Locks. React não acessa LocalStorage. Supabase futuro entra por adapters, sem provisionamento nesta SPEC.
+
+Estas decisões substituem as perguntas abertas registradas na preparação original abaixo. O texto histórico é mantido como rastreabilidade, mas não prevalece sobre RN-01 a RN-12.
 
 ## Objetivo e referências
 

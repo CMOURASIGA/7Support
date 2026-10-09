@@ -52,6 +52,7 @@ export type TicketEvent = {
 };
 export type AtenaTicketOrigin = { type: "ATENA"; conversationId: string; escalationId: string; idempotencyKey: string };
 export type Ticket = {
+  demo?: boolean;
   origin?: AtenaTicketOrigin;
   id: string;
   publicNumber: number;

@@ -73,6 +73,13 @@ export class TicketService {
   async get(id: string) { const ticket = (await this.repository.read()).tickets.find((candidate) => candidate.id === id); if (!ticket) throw new TicketError("NOT_FOUND", "Chamado não encontrado."); allowed(ticket); return forClient(ticket); }
   async listInternal() { internalSession(); return sortTickets((await this.repository.read()).tickets); }
   async getInternal(id: string) { internalSession(); const ticket = (await this.repository.read()).tickets.find((item) => item.id === id); if (!ticket) throw new TicketError("NOT_FOUND", "Chamado não encontrado."); return ticket; }
+  async reportingTickets() {
+    const actor = internalSession();
+    if (!this.repository.readOnly) throw new TicketError("STORAGE", "O repositório não oferece consulta somente leitura.");
+    const database = await this.repository.readOnly();
+    if (internalSession().id !== actor.id || internalSession().role !== actor.role) throw new TicketError("FORBIDDEN", "A sessão mudou.");
+    return database.tickets;
+  }
   async slaHistory(id: string) {
     const user = session();
     const ticket = (await this.repository.read()).tickets.find(item => item.id === id);
@@ -87,6 +94,19 @@ export class TicketService {
       replies: ticket.messages.filter(message => message.visibility === "PUBLIC_REPLY" && message.authorType === "SUPPORT")
         .map(message => ({ id: message.id, eventId: message.eventId, createdAt: message.createdAt })),
     };
+  }
+  async withSatisfactionResolution<T>(id: string, resolutionEventId: string, work: (context: { ticket: Ticket; resolutionEvent: Ticket["events"][number] }) => T | Promise<T>) {
+    const user = clientSession();
+    return this.repository.transact(async database => {
+      if (clientSession().id !== user.id || clientSession().clientId !== user.clientId) throw new TicketError("FORBIDDEN", "A sessão mudou durante a avaliação.");
+      const ticket = database.tickets.find(item => item.id === id);
+      if (!ticket) throw new TicketError("NOT_FOUND", "Chamado não encontrado.");
+      allowed(ticket);
+      const resolutionEvent = ticket.events.find(event => event.id === resolutionEventId && event.eventType === "STATUS_CHANGED" && event.newStatus === "RESOLVED");
+      if (!resolutionEvent) throw new TicketError("NOT_FOUND", "Ciclo de resolução não encontrado.");
+      if (ticket.events.some(event => event.eventType === "STATUS_CHANGED" && event.newStatus === "REOPENED" && event.createdAt >= resolutionEvent.createdAt)) throw new TicketError("VALIDATION", "Este ciclo foi reaberto e não pode mais ser avaliado.");
+      return work({ ticket, resolutionEvent });
+    });
   }
   operators() { internalSession(); return demoOperators; }
   async createFromAtena(input: NewTicketInput, reference: { conversationId: string; escalationId: string }, revalidate: () => Promise<{ id: string; productId: string; userId: string; tenantId: string }>) {

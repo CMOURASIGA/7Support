@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Bell, BookOpen, Home, LifeBuoy, ListFilter, PlusCircle, Sparkles, X } from "lucide-react";
+import { BarChart3, Bell, BookOpen, Home, LifeBuoy, ListFilter, PlusCircle, Sparkles, X } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { useAuth } from "@/features/auth/auth-context";
 
@@ -13,7 +13,7 @@ export function Sidebar({ isMobileOpen, onCloseMobile }: { isMobileOpen: boolean
   const sections = [
     { label: "Principal", items: [
       { label: "Início", href: "/", icon: Home },
-      ...(user?.role === "CLIENT" ? [{ label: "Meus chamados", href: "/tickets", icon: LifeBuoy }, { label: "Novo chamado", href: "/tickets/new", icon: PlusCircle }] : [{ label: "Fila de atendimento", href: "/support/queue", icon: ListFilter }, { label: "Todos os chamados", href: "/support/tickets", icon: LifeBuoy }]),
+      ...(user?.role === "CLIENT" ? [{ label: "Meus chamados", href: "/tickets", icon: LifeBuoy }, { label: "Novo chamado", href: "/tickets/new", icon: PlusCircle }] : [{ label: "Fila de atendimento", href: "/support/queue", icon: ListFilter }, { label: "Todos os chamados", href: "/support/tickets", icon: LifeBuoy }, { label: "Relatórios", href: "/support/reports", icon: BarChart3 }]),
       { label: "Notificações", href: "/notifications", icon: Bell },
       { label: "Base de conhecimento", href: "/knowledge", icon: BookOpen },
       { label: "Atena", href: "/atena", icon: Sparkles },

@@ -6,6 +6,7 @@ import { stateLabels, resultLabels, type ClientSlaView, type InternalSlaView, ty
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { formatDate } from "@/components/tickets/ticket-ui";
+import { SatisfactionPanel } from "@/components/satisfaction/satisfaction-panel";
 export function SlaBadge({ state }: { state?: SlaState }) {
   return <Badge tone={state === "BREACHED" || state === "INVALID_HISTORY" ? "danger" : state === "PAUSED" ? "warning" : state === "ON_TRACK" ? "success" : "neutral"}>{state ? stateLabels[state] : "Calculando SLA..."}</Badge>;
 }
@@ -36,4 +37,7 @@ export function SlaPanel({ ticketId }: { ticketId: string }) {
     })}</div></div>)}</div>}
     {!client && <p className="text-xs text-[var(--text-secondary)]">24x7 · minutos corridos · atualização durante o uso do aplicativo. Valores demo, sem compromisso comercial.</p>}
   </section></Card>;
+}
+export function ClientSlaWithSatisfaction({ ticketId }: { ticketId: string }) {
+  return <div className="space-y-5"><SlaPanel ticketId={ticketId} /><SatisfactionPanel ticketId={ticketId} /></div>;
 }
