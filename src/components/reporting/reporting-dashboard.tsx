@@ -14,12 +14,23 @@ import { useToast } from "@/components/ui/toast";
 const initial: ReportFilters = { preset: "30D", origin: "OPERATIONAL", clientId: "", productId: "", type: "" };
 const percent = (value: number | null) => value === null ? "—" : `${(value * 100).toFixed(1)}%`;
 const minutes = (value: number | null) => value === null ? "—" : `${value.toFixed(1)} min`;
+function defaultCustomRange() {
+  const end = new Date(); const start = new Date(end); start.setUTCDate(start.getUTCDate() - 29);
+  return { start: start.toISOString().slice(0, 10), end: end.toISOString().slice(0, 10) };
+}
 
 export function ReportingDashboard() {
   const [filters, setFilters] = useState(initial); const [report, setReport] = useState<OperationalReport | null>(null); const [loading, setLoading] = useState(true); const [error, setError] = useState(""); const { notify } = useToast();
   const refresh = useCallback(async () => { setLoading(true); setError(""); try { setReport(await reportingService.generate(filters)); } catch (cause) { setError(cause instanceof Error ? cause.message : "Não foi possível gerar o relatório."); } finally { setLoading(false); } }, [filters]);
   useEffect(() => { void refresh(); }, [refresh]);
   function update<K extends keyof ReportFilters>(key: K, value: ReportFilters[K]) { setFilters(current => ({ ...current, [key]: value })); }
+  function updatePreset(preset: ReportFilters["preset"]) {
+    setFilters(current => {
+      if (preset !== "CUSTOM") return { ...current, preset };
+      const defaults = defaultCustomRange();
+      return { ...current, preset, start: current.start || defaults.start, end: current.end || defaults.end };
+    });
+  }
   function download(kind: CsvKind) {
     if (!report) return; const blob = new Blob([exportReportCsv(report, kind)], { type: "text/csv;charset=utf-8" }); const url = URL.createObjectURL(blob); const anchor = document.createElement("a"); anchor.href = url; anchor.download = `7support-${kind.toLowerCase()}-${report.period.start.slice(0,10)}.csv`; anchor.click(); URL.revokeObjectURL(url); notify("CSV exportado com os filtros atuais.");
   }
@@ -30,7 +41,7 @@ export function ReportingDashboard() {
     ["Satisfação positiva", percent(report.positiveSatisfaction.rate), `${report.positiveSatisfaction.numerator}/${report.positiveSatisfaction.denominator}`], ["Rating médio", report.averageRating.value?.toFixed(1) ?? "—", `${report.averageRating.denominator} ratings`], ["Participação", percent(report.participation.rate), `${report.participation.numerator}/${report.participation.denominator}`],
   ] : [];
   return <AppShell><div className="mx-auto w-full max-w-7xl space-y-5"><div className="flex flex-wrap items-end justify-between gap-3"><div><p className="workspace-eyebrow">Operação interna</p><h1 className="workspace-title">Satisfação e relatórios</h1><p className="workspace-subtitle">Indicadores com coortes, denominadores e exclusões explícitas.</p></div><button className="workspace-button-secondary" onClick={() => void refresh()} disabled={loading}><RefreshCw size={17} />Atualizar</button></div>
-    <Card><div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6"><label className="text-sm font-medium">Período<select className="workspace-input mt-1" value={filters.preset} onChange={event => update("preset", event.target.value as ReportFilters["preset"])}><option value="7D">7 dias</option><option value="30D">30 dias</option><option value="90D">90 dias</option><option value="CURRENT_MONTH">Mês atual</option><option value="CUSTOM">Personalizado</option></select></label>
+    <Card><div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6"><label className="text-sm font-medium">Período<select className="workspace-input mt-1" value={filters.preset} onChange={event => updatePreset(event.target.value as ReportFilters["preset"])}><option value="7D">7 dias</option><option value="30D">30 dias</option><option value="90D">90 dias</option><option value="CURRENT_MONTH">Mês atual</option><option value="CUSTOM">Personalizado</option></select></label>
       {filters.preset === "CUSTOM" && <><label className="text-sm font-medium">Início<input className="workspace-input mt-1" type="date" value={filters.start ?? ""} onChange={event => update("start", event.target.value)} /></label><label className="text-sm font-medium">Fim<input className="workspace-input mt-1" type="date" value={filters.end ?? ""} onChange={event => update("end", event.target.value)} /></label></>}
       <label className="text-sm font-medium">Cliente<select className="workspace-input mt-1" value={filters.clientId} onChange={event => update("clientId", event.target.value)}><option value="">Todos</option>{report?.options.clients.map(item => <option key={item.id} value={item.id}>{item.label}</option>)}</select></label>
       <label className="text-sm font-medium">Produto<select className="workspace-input mt-1" value={filters.productId} onChange={event => update("productId", event.target.value)}><option value="">Todos</option>{report?.options.products.map(item => <option key={item.id} value={item.id}>{item.label}</option>)}</select></label>

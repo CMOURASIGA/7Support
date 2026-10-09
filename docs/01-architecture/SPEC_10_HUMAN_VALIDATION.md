@@ -55,3 +55,13 @@ Status esperado da entrega: `READY FOR HUMAN VALIDATION`.
 - Políticas, ciclos, pausas, resultados congelados e alertas SLA da SPEC 09 permanecem inalterados.
 - Nenhum e-mail real, Supabase, RLS, 7Service ou job externo foi ativado.
 - Refresh, duas abas e retry não duplicam avaliação nem notificação.
+
+## Checkpoint de validação parcial - 09/10/2026
+
+Checkpoint de origem: `6c3c16b390f7e3b71ee79fdcf656a6a0993389b7`.
+
+- HV-02 validada no Preview com `CS-000004`: a avaliação do primeiro ciclo permaneceu imutável; a reabertura invalidou o ciclo encerrado; após novo fluxo `REOPENED -> IN_PROGRESS -> UNDER_ANALYSIS -> RESOLVED`, surgiu uma nova oportunidade e o histórico anterior foi preservado. O envio concorrente ou tardio após reabertura também permanece coberto pelos testes unitários de domínio.
+- HV-03 validada para 7, 30 e 90 dias, mês atual, cliente, produto, tipo e origens `OPERATIONAL`, `MANUAL`, `ATENA`, `DEMO` e `ALL`. A validação encontrou uma falha no primeiro uso do período personalizado vazio; o seletor passa a inicializar um intervalo válido de 30 dias e ganhou cenário E2E específico.
+- As quatro ações de exportação foram exercitadas no Preview. A suíte unitária confirma filtros compartilhados, exclusão de comentário e IDs internos e neutralização de CSV Injection.
+- As regressões de Atena Escalation e SLA permanecem cobertas pela suíte integral de 156 testes unitários. Nenhuma integração externa foi ativada.
+- O cenário E2E foi descoberto pelo Playwright, mas a execução local segue bloqueada pela ausência do binário Chromium no ambiente. A validação funcional foi executada no navegador do Preview; o novo cenário automatizado deve rodar no CI/Preview que disponibilize Chromium.
